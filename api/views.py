@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
 from .models import Product, Category, Order
 from .serializers import ProductSerializer, CategorySerializer, OrderSerializer
+from .serializers import RegisterSerializer
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
@@ -23,3 +24,8 @@ class OrderCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
