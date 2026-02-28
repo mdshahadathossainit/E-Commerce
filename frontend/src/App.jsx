@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </div>
       <footer style={{ textAlign: 'center', padding: '20px', background: '#f4f4f4', marginTop: '20px' }}>
