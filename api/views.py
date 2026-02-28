@@ -72,4 +72,19 @@ class CartViewSet(viewsets.ModelViewSet):
         cart_item.save()
         
         return Response({'message': 'Product added to cart'}, status=status.HTTP_200_OK)
+
+
+class AdminProductStatsView(generics.ListAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    
+    def get(self, request):
+        product_count = Product.objects.count()
+        order_count = Order.objects.count()
+        total_sales = sum(order.total_price for order in Order.objects.filter(is_paid=True))
+        
+        return Response({
+            'total_products': product_count,
+            'total_orders': order_count,
+            'total_sales': total_sales
+        })
         
