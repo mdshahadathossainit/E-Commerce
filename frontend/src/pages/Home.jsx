@@ -9,15 +9,15 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
-        api.get('categories/').then(res => setCategories(res.data));
+        api.get('/categories/').then(res => setCategories(res.data)).catch(err => console.log(err));
     }, []);
 
     useEffect(() => {
-        let url = `products/?search=${search}`;
+        let url = `/products/?search=${search}`;
         if (selectedCategory) {
             url += `&category=${selectedCategory}`;
         }
-        api.get(url).then(res => setProducts(res.data));
+        api.get(url).then(res => setProducts(res.data)).catch(err => console.log(err));
     }, [search, selectedCategory]);
 
     return (
