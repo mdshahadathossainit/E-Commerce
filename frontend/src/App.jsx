@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
+import ProductDetail from './pages/ProductDetail';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -11,19 +12,37 @@ function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
-    alert('Logged Out');
+    alert('Logged Out Successfully');
     navigate('/login');
   };
 
   return (
-    <nav style={{ padding: '10px', background: '#333', color: '#fff', display: 'flex', gap: '15px', alignItems: 'center' }}>
-      <strong style={{ marginRight: 'auto' }}>My E-Commerce</strong>
+    <nav style={{ 
+      padding: '10px 20px', 
+      background: '#333', 
+      color: '#fff', 
+      display: 'flex', 
+      gap: '15px', 
+      alignItems: 'center' 
+    }}>
+      <strong style={{ marginRight: 'auto', fontSize: '1.2rem' }}>My E-Commerce</strong>
+      
       <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
       
       {isAuthenticated ? (
         <>
           <Link to="/cart" style={{ color: '#fff', textDecoration: 'none' }}>Cart</Link>
-          <button onClick={handleLogout} style={{ background: 'red', color: 'white', border: 'none', cursor: 'pointer', padding: '5px 10px' }}>
+          <button 
+            onClick={handleLogout} 
+            style={{ 
+              background: '#e74c3c', 
+              color: 'white', 
+              border: 'none', 
+              cursor: 'pointer', 
+              padding: '5px 12px',
+              borderRadius: '4px'
+            }}
+          >
             Logout
           </button>
         </>
@@ -41,12 +60,18 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+      <div style={{ minHeight: '80vh' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/product/:slug" element={<ProductDetail />} />
+        </Routes>
+      </div>
+      <footer style={{ textAlign: 'center', padding: '20px', background: '#f4f4f4', marginTop: '20px' }}>
+        <p>&copy; 2026 E-Commerce Store</p>
+      </footer>
     </Router>
   );
 }
