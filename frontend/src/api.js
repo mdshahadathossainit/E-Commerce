@@ -1,7 +1,7 @@
 import axios from 'axios';
-
-const api = axios.create({
-    baseURL: 'https://e-commerce-hmvn.onrender.com/api/', 
+const API = axios.create({
+    baseURL: 'https://e-commerce-hmvn.onrender.com/api'
 });
 
-export default api;
+export const fetchProducts = () => API.get('/products/');
+export const fetchCategories = () => API.get('/categories/');
