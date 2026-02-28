@@ -36,6 +36,12 @@ const Cart = () => {
             <button style={{ padding: '10px 20px', background: 'green', color: 'white', border: 'none' }}>
                 Checkout
             </button>
+            <button 
+    onClick={() => navigate('/checkout')}
+    style={{ padding: '10px 20px', background: 'green', color: 'white', border: 'none', cursor: 'pointer', marginTop: '10px' }}
+>
+    Proceed to Checkout
+</button>
         </div>
     );
 };
