@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -24,6 +25,26 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+
+
+
+function App() {
+  return (
+    <Router>
+      <nav style={{ padding: '10px', background: '#333', color: '#fff', display: 'flex', gap: '15px' }}>
+        <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Home</Link>
+        <Link to="/login" style={{ color: '#fff', textDecoration: 'none' }}>Login</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
