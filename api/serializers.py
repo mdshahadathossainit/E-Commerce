@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from .models import User, Category, Product, Cart, CartItem, Order, OrderItem
 
@@ -45,7 +44,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_with_only=True)
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
