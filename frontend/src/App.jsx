@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Cart from './pages/Cart';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
+import Profile from './pages/Profile';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function Navbar() {
       {isAuthenticated ? (
         <>
           <Link to="/cart" style={{ color: '#fff', textDecoration: 'none' }}>Cart</Link>
+          <Link to="/profile" style={{ color: '#fff', textDecoration: 'none' }}>Profile</Link>
           <button 
             onClick={handleLogout} 
             style={{ 
@@ -69,6 +71,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
       <footer style={{ textAlign: 'center', padding: '20px', background: '#f4f4f4', marginTop: '20px' }}>
