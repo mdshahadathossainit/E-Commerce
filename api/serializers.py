@@ -1,1 +1,45 @@
 
+from rest_framework import serializers
+from .models import User, Category, Product, Cart, CartItem, Order, OrderItem
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'is_vendor', 'address', 'phone']
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.ReadOnlyField(source='category.name')
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), source='product'
+    )
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'product_id', 'quantity']
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Cart
+        fields = ['id', 'user', 'items', 'created_at']
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_items = OrderItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = '__all__'
