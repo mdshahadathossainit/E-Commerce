@@ -1,39 +1,15 @@
-from rest_framework import generics, permissions
-from .models import Product, Category, Order
-from .serializers import ProductSerializer, CategorySerializer, OrderSerializer, CartSerializer, CartItemSerializer
-from .serializers import RegisterSerializer
-from rest_framework import viewsets, status
+from rest_framework import generics, permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.db.models import Q
-from .models import Product, Category, Order, Cart, CartItem
-
-class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]
-
-class ProductDetailView(generics.RetrieveAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    lookup_field = 'slug'
-
-class CategoryListView(generics.ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-class OrderCreateView(generics.CreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = [permissions.AllowAny]
-    serializer_class = RegisterSerializer
+from .models import User, Product, Category, Order, Cart, CartItem
+from .serializers import (
+    ProductSerializer, 
+    CategorySerializer, 
+    OrderSerializer, 
+    RegisterSerializer, 
+    CartSerializer
+)
 
 class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
@@ -49,6 +25,28 @@ class ProductListView(generics.ListAPIView):
         if category:
             queryset = queryset.filter(category__slug=category)
         return queryset
+
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
+
+class OrderCreateView(generics.CreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class CartViewSet(viewsets.ModelViewSet):
     serializer_class = CartSerializer
@@ -73,7 +71,6 @@ class CartViewSet(viewsets.ModelViewSet):
         
         return Response({'message': 'Product added to cart'}, status=status.HTTP_200_OK)
 
-
 class AdminProductStatsView(generics.ListAPIView):
     permission_classes = [permissions.IsAdminUser]
     
@@ -87,4 +84,3 @@ class AdminProductStatsView(generics.ListAPIView):
             'total_orders': order_count,
             'total_sales': total_sales
         })
-        
