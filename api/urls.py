@@ -5,24 +5,24 @@ from .views import (
     ProductListView, 
     ProductDetailView, 
     CategoryListView, 
-    OrderCreateView, 
     RegisterView, 
+    OrderViewSet,  
     CartViewSet,
     AdminProductStatsView
 )
 
 router = DefaultRouter()
 router.register(r'cart', CartViewSet, basename='cart')
+router.register(r'orders', OrderViewSet, basename='orders') 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('register/', RegisterView.as_view()),
-    path('login/', TokenObtainPairView.as_view()),
-    path('token/refresh/', TokenRefreshView.as_view()),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
-    path('products/', ProductListView.as_view()),
-    path('products/<slug:slug>/', ProductDetailView.as_view()),
-    path('categories/', CategoryListView.as_view()),
-    path('orders/', OrderCreateView.as_view()),
-    path('admin-stats/', AdminProductStatsView.as_view()),
+    path('products/', ProductListView.as_view(), name='product-list'),
+    path('products/<slug:slug>/', ProductDetailView.as_view(), name='product-detail'),
+    path('categories/', CategoryListView.as_view(), name='category-list'),
+    path('admin-stats/', AdminProductStatsView.as_view(), name='admin-stats'),
 ]
