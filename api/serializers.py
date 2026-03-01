@@ -13,6 +13,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
+    image = serializers.ImageField(use_url=True, required=False)
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -33,9 +35,10 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'items', 'created_at']
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
     class Meta:
         model = OrderItem
-        fields = '__all__'
+        fields = ['id', 'product', 'quantity', 'price']
 
 class OrderSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True, read_only=True)
@@ -45,7 +48,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-
     class Meta:
         model = User
         fields = ['username', 'password', 'email', 'phone']
