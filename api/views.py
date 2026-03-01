@@ -44,21 +44,19 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).order_by('-id')
+        return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
     def create(self, request, *args, **kwargs):
         user = request.user
         cart = Cart.objects.filter(user=user).first()
         if not cart or not cart.items.exists():
-            return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_OK)
+            return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
         shipping_address = request.data.get('shipping_address')
         payment_method = request.data.get('payment_method')
         
-        # Calculate total price
         total_price = sum(item.product.price * item.quantity for item in cart.items.all())
 
-        # Create Order
         order = Order.objects.create(
             user=user,
             total_price=total_price,
@@ -67,7 +65,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             is_paid=True if payment_method == 'Stripe' else False
         )
 
-        # Move CartItems to OrderItems
         for item in cart.items.all():
             OrderItem.objects.create(
                 order=order,
@@ -76,9 +73,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 price=item.product.price
             )
         
-        # Clear Cart
         cart.items.all().delete()
-
         return Response({'message': 'Order placed successfully', 'order_id': order.id}, status=status.HTTP_201_CREATED)
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -93,7 +88,10 @@ class CartViewSet(viewsets.ModelViewSet):
         product_id = request.data.get('product_id')
         quantity = int(request.data.get('quantity', 1))
         cart, created = Cart.objects.get_or_create(user=request.user)
-        product = Product.objects.get(id=product_id)
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
         
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
         if not created:
