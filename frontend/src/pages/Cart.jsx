@@ -5,6 +5,7 @@ import api from '../api';
 const Cart = () => {
     const [cart, setCart] = useState(null);
     const navigate = useNavigate();
+    const BASE_URL = 'https://e-commerce-hmvn.onrender.com';
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -36,8 +37,16 @@ const Cart = () => {
                 <>
                     <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', marginBottom: '20px' }}>
                         {cart.items.map(item => (
-                            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #eee' }}>
-                                <span>{item.product.name} (x{item.quantity})</span>
+                            <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #eee' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                    
+                                    <img 
+                                        src={item.product.image.startsWith('http') ? item.product.image : `${BASE_URL}${item.product.image}`} 
+                                        alt={item.product.name} 
+                                        style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '5px' }} 
+                                    />
+                                    <span>{item.product.name} (x{item.quantity})</span>
+                                </div>
                                 <strong>${(item.product.price * item.quantity).toFixed(2)}</strong>
                             </div>
                         ))}
