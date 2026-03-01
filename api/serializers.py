@@ -14,9 +14,11 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     image = serializers.ImageField(use_url=True, required=False)
+    display_image = serializers.ReadOnlyField(source='get_display_image')
 
     class Meta:
         model = Product
+        # fields = '__all__' 
         fields = '__all__'
 
 class CartItemSerializer(serializers.ModelSerializer):
