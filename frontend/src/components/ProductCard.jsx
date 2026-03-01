@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-    const BASE_URL = 'https://e-commerce-hmvn.onrender.com';
-
     const getImageUrl = () => {
+        if (product.display_image) {
+            return product.display_image;
+        }
+        const BASE_URL = 'https://e-commerce-hmvn.onrender.com';
         if (!product.image) return 'https://via.placeholder.com/150';
         
-        const imageStr = typeof product.image === 'string' ? product.image : String(product.image);
-        
+        const imageStr = String(product.image);
         if (imageStr.startsWith('http')) return imageStr;
         
         const cleanPath = imageStr.startsWith('/') ? imageStr : `/${imageStr}`;
