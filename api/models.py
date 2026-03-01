@@ -1,4 +1,3 @@
-from django.db import migrations, models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -32,10 +31,13 @@ class Product(models.Model):
 
     @property
     def display_image_url(self):
-        if self.image_url:
+        if self.image_url and self.image_url.strip():
             return self.image_url
         if self.image:
-            return self.image.url
+            try:
+                return self.image.url
+            except:
+                pass
         return "https://via.placeholder.com/150"
 
 class Cart(models.Model):
