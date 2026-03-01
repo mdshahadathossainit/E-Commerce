@@ -5,8 +5,8 @@ from .views import (
     ProductListView, 
     ProductDetailView, 
     CategoryListView, 
-    RegisterView, 
     OrderViewSet,  
+    RegisterView, 
     CartViewSet,
     AdminProductStatsView
 )
