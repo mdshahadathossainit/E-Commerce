@@ -20,18 +20,19 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_display_image(self, obj):
-        url = obj.display_image_url
-        if not url:
+        image_to_show = obj.display_image_url
+        
+        if not image_to_show:
             return "https://via.placeholder.com/150"
         
-        if url.startswith('http'):
-            return url
+        if str(image_to_show).startswith('http'):
+            return image_to_show
             
         request = self.context.get('request')
         if request is not None:
-            return request.build_absolute_uri(url)
+            return request.build_absolute_uri(image_to_show)
             
-        return f"https://e-commerce-hmvn.onrender.com{url}"
+        return f"https://e-commerce-hmvn.onrender.com{image_to_show}"
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
