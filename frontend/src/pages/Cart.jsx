@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 const Cart = () => {
     const [cart, setCart] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -19,29 +21,56 @@ const Cart = () => {
         fetchCart();
     }, []);
 
+    const calculateTotal = () => {
+        return cart.items.reduce((total, item) => total + (item.product.price * item.quantity), 0).toFixed(2);
+    };
+
     if (!cart) return <div style={{ padding: '20px' }}>Loading Cart...</div>;
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
             <h2>Your Shopping Cart</h2>
-            {cart.items.length === 0 ? <p>Cart is empty</p> : (
-                <ul>
-                    {cart.items.map(item => (
-                        <li key={item.id} style={{ marginBottom: '10px' }}>
-                            {item.product.name} - Quantity: {item.quantity} - ${item.product.price}
-                        </li>
-                    ))}
-                </ul>
+            {cart.items.length === 0 ? (
+                <p>Cart is empty</p>
+            ) : (
+                <>
+                    <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', marginBottom: '20px' }}>
+                        {cart.items.map(item => (
+                            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #eee' }}>
+                                <span>{item.product.name} (x{item.quantity})</span>
+                                <strong>${(item.product.price * item.quantity).toFixed(2)}</strong>
+                            </div>
+                        ))}
+                        <div style={{ textAlign: 'right', marginTop: '15px', fontSize: '1.2rem' }}>
+                            <strong>Total: ${calculateTotal()}</strong>
+                        </div>
+                    </div>
+
+                    <div style={{ background: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
+                        <h3>Payment Method</h3>
+                        <label style={{ display: 'block', marginBottom: '15px', cursor: 'pointer' }}>
+                            <input type="radio" name="payment" checked readOnly /> Cash on Delivery (COD)
+                        </label>
+                        
+                        <button 
+                            onClick={() => navigate('/checkout')}
+                            style={{ 
+                                width: '100%',
+                                padding: '12px', 
+                                background: '#27ae60', 
+                                color: 'white', 
+                                border: 'none', 
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                fontSize: '1rem'
+                            }}
+                        >
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </>
             )}
-            <button style={{ padding: '10px 20px', background: 'green', color: 'white', border: 'none' }}>
-                Checkout
-            </button>
-            <button 
-    onClick={() => navigate('/checkout')}
-    style={{ padding: '10px 20px', background: 'green', color: 'white', border: 'none', cursor: 'pointer', marginTop: '10px' }}
->
-    Proceed to Checkout
-</button>
         </div>
     );
 };
