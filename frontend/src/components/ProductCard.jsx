@@ -5,23 +5,68 @@ const ProductCard = ({ product }) => {
     const BASE_URL = 'https://e-commerce-hmvn.onrender.com';
 
     const getImageUrl = () => {
-        if (!product.image) return 'https://via.placeholder.com/150'; 
-        if (product.image.startsWith('http')) return product.image;
+        if (!product.image) return 'https://via.placeholder.com/150';
         
-        const imagePath = product.image.startsWith('/') ? product.image : `/${product.image}`;
-        return `${BASE_URL}${imagePath}`;
+        const imageStr = typeof product.image === 'string' ? product.image : String(product.image);
+        
+        if (imageStr.startsWith('http')) return imageStr;
+        
+        const cleanPath = imageStr.startsWith('/') ? imageStr : `/${imageStr}`;
+        return `${BASE_URL}${cleanPath}`;
     };
 
     return (
-        <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', borderRadius: '8px', width: '200px', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+        <div style={{ 
+            border: '1px solid #ddd', 
+            padding: '15px', 
+            margin: '10px', 
+            borderRadius: '12px', 
+            width: '220px', 
+            backgroundColor: '#fff', 
+            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+            transition: 'transform 0.2s'
+        }}>
             <img 
                 src={getImageUrl()} 
                 alt={product.name} 
-                style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '4px' }} 
+                style={{ 
+                    width: '100%', 
+                    height: '160px', 
+                    objectFit: 'cover', 
+                    borderRadius: '8px' 
+                }} 
+                onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
             />
-            <h3 style={{ fontSize: '1.1rem', margin: '10px 0', height: '40px', overflow: 'hidden' }}>{product.name}</h3>
-            <p style={{ fontWeight: 'bold', color: '#2c3e50' }}>Price: ${product.price}</p>
-            <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none', color: '#3498db', fontWeight: '500' }}>
+            <h3 style={{ 
+                fontSize: '1.05rem', 
+                margin: '12px 0 8px', 
+                height: '42px', 
+                overflow: 'hidden',
+                color: '#333'
+            }}>
+                {product.name}
+            </h3>
+            <p style={{ 
+                fontWeight: 'bold', 
+                color: '#27ae60', 
+                fontSize: '1.2rem',
+                marginBottom: '12px'
+            }}>
+                ${product.price}
+            </p>
+            <Link 
+                to={`/product/${product.slug}`} 
+                style={{ 
+                    display: 'block',
+                    textDecoration: 'none', 
+                    color: '#fff', 
+                    backgroundColor: '#3498db',
+                    padding: '8px 0',
+                    borderRadius: '6px',
+                    textAlign: 'center',
+                    fontWeight: '500'
+                }}
+            >
                 View Details
             </Link>
         </div>
