@@ -1,3 +1,4 @@
+from django.db import migrations, models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -22,23 +23,21 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock_count = models.IntegerField(default=0)
-
     image = models.ImageField(upload_to='products/', blank=True, null=True)
-    
     image_url = models.URLField(max_length=1000, blank=True, null=True)
-    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
     @property
-    def get_display_image(self):
+    def display_image_url(self):
         if self.image_url:
             return self.image_url
         if self.image:
             return self.image.url
         return "https://via.placeholder.com/150"
+
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
