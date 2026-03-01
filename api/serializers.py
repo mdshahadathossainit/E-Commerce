@@ -13,13 +13,20 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
-    image = serializers.ImageField(use_url=True, required=False)
-    display_image = serializers.ReadOnlyField(source='get_display_image')
+    display_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        # fields = '__all__' 
         fields = '__all__'
+
+    def get_display_image(self, obj):
+        request = self.context.get('request')
+        url = obj.display_image_url
+        if url.startswith('http'):
+            return url
+        if request is not None:
+            return request.build_absolute_uri(url)
+        return url
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
