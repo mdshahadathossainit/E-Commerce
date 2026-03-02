@@ -7,6 +7,20 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [currentBanner, setCurrentBanner] = useState(0);
+    const banners = [
+        "https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg",
+        "https://m.media-amazon.com/images/I/81KkrQWEHIL._SX3000_.jpg",
+        "https://m.media-amazon.com/images/I/61zAjw4bqPL._SX3000_.jpg",
+        "https://m.media-amazon.com/images/I/71Ie3JXGfVL._SX3000_.jpg"
+    ];
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentBanner((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
+        }, 5000); 
+        return () => clearInterval(timer);
+    }, [banners.length]);
 
     useEffect(() => {
         api.get('categories/').then(res => setCategories(res.data)).catch(err => console.log(err));
@@ -23,7 +37,7 @@ const Home = () => {
     return (
         <div style={{ backgroundColor: '#eaeded', minHeight: '100vh', paddingBottom: '40px' }}>
             
-            {/* 1. Top Search Bar Section (Separate from Banner) */}
+            {/* 1. Top Search Bar Section */}
             <div style={{ 
                 backgroundColor: '#131921', 
                 padding: '10px 0', 
@@ -80,21 +94,32 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* 2. Amazon Style Hero Banner (Now below Search Bar) */}
+            {/* 2. Amazon Style Multi-Banner Slider */}
             <div style={{
-                height: '400px', // ব্যানার হাইট একটু বাড়ানো হয়েছে
-                backgroundImage: 'url("https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg")',
+                height: '400px',
+                backgroundImage: `url("${banners[currentBanner]}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))', // নিচ থেকে ফেড আউট হবে
-                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))'
+                transition: 'background-image 0.8s ease-in-out', 
+                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))',
+                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))',
+                position: 'relative'
             }}>
+            
+                <button 
+                    onClick={() => setCurrentBanner(currentBanner === 0 ? banners.length - 1 : currentBanner - 1)}
+                    style={navButtonStyle('left')}
+                >❮</button>
+                <button 
+                    onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)}
+                    style={navButtonStyle('right')}
+                >❯</button>
             </div>
 
-            {/* 3. Product Grid Layout (Overlapping effect) */}
+            {/* 3. Product Grid Layout */}
             <div style={{ 
                 maxWidth: '1500px', 
-                margin: '-180px auto 0', // গ্রিডটি ব্যানারের উপরে উঠে আসবে
+                margin: '-180px auto 0', 
                 padding: '0 20px',
                 position: 'relative',
                 zIndex: 10
@@ -125,5 +150,19 @@ const Home = () => {
         </div>
     );
 };
+
+const navButtonStyle = (dir) => ({
+    position: 'absolute',
+    top: '40%',
+    [dir]: '20px',
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: '#333',
+    fontSize: '40px',
+    cursor: 'pointer',
+    zIndex: 20,
+    outline: 'none',
+    opacity: '0.6'
+});
 
 export default Home;
