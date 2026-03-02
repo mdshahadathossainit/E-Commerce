@@ -62,10 +62,8 @@ const Profile = () => {
     return (
         <div style={{ padding: '20px', maxWidth: '1100px', margin: '0 auto' }}>
             <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-                
                 <div style={{ flex: '1', minWidth: '320px', backgroundColor: '#fff', padding: '25px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
                     <h2 style={{ borderBottom: '2px solid #febd69', paddingBottom: '10px', marginBottom: '20px' }}>Profile Settings</h2>
-                    
                     <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                         <img 
                             src={previewImage || "https://via.placeholder.com/150"} 
@@ -75,7 +73,6 @@ const Profile = () => {
                         <br />
                         <input type="file" onChange={handleFileChange} style={{ marginTop: '10px', fontSize: '12px' }} />
                     </div>
-
                     <form onSubmit={handleUpdate}>
                         <div style={{ marginBottom: '15px' }}>
                             <label style={{ fontWeight: 'bold' }}>Username</label>
@@ -96,7 +93,6 @@ const Profile = () => {
                         <button type="submit" style={{ width: '100%', backgroundColor: '#febd69', border: 'none', padding: '12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Save Profile</button>
                     </form>
                 </div>
-
                 <div style={{ flex: '1.5', minWidth: '350px' }}>
                     <h2 style={{ marginBottom: '20px' }}>Order History</h2>
                     {orders.length === 0 ? <p>No orders yet.</p> : orders.map(order => (
