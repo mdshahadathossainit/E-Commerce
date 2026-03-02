@@ -13,7 +13,6 @@ const Cart = () => {
                 const res = await api.get('cart/', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                // ডাটা চেক করা হচ্ছে
                 if (res.data.length > 0) {
                     setCart(res.data[0]);
                 } else {
@@ -44,11 +43,11 @@ const Cart = () => {
                         {cart.items.map(item => (
                             <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #eee' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                   
                                     <img 
                                         src={item.product.display_image} 
                                         alt={item.product.name} 
                                         style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '5px' }} 
+                                        onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
                                     />
                                     <span>{item.product.name} (x{item.quantity})</span>
                                 </div>
