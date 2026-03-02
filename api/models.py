@@ -12,7 +12,6 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
     image_url = models.URLField(max_length=500, blank=True, null=True)
-
     def __str__(self):
         return self.name
 
@@ -26,10 +25,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     image_url = models.URLField(max_length=1000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.name
-
     @property
     def display_image_url(self):
         if self.image_url and self.image_url.strip():
@@ -51,10 +48,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
 class Order(models.Model):
-    PAYMENT_METHODS = (
-        ('COD', 'Cash on Delivery'),
-        ('Card', 'Card Payment'),
-    )
+    PAYMENT_METHODS = (('COD', 'Cash on Delivery'), ('Card', 'Card Payment'),)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     is_paid = models.BooleanField(default=False)
@@ -63,7 +57,6 @@ class Order(models.Model):
     shipping_address = models.TextField()
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHODS, default='COD')
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 
