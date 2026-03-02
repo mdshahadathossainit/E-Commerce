@@ -4,7 +4,8 @@ from .models import User, Category, Product, Cart, CartItem, Order, OrderItem
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_vendor', 'address', 'phone']
+        fields = ['id', 'username', 'email', 'is_vendor', 'address', 'phone', 'photo']
+        read_only_fields = ['username']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,7 +53,7 @@ class OrderSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True, read_only=True)
     class Meta:
         model = Order
-        fields = ['id', 'user', 'total_price', 'is_paid', 'paid_at', 'is_delivered', 'shipping_address', 'payment_method', 'order_items']
+        fields = ['id', 'user', 'total_price', 'is_paid', 'paid_at', 'is_delivered', 'shipping_address', 'payment_method', 'order_items', 'created_at']
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
