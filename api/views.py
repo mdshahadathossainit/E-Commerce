@@ -8,7 +8,8 @@ from .serializers import (
     CategorySerializer, 
     OrderSerializer, 
     RegisterSerializer, 
-    CartSerializer
+    CartSerializer,
+    UserSerializer
 )
 
 class ProductListView(generics.ListAPIView):
@@ -38,6 +39,13 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = RegisterSerializer
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
