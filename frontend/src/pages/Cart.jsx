@@ -5,7 +5,6 @@ import api from '../api';
 const Cart = () => {
     const [cart, setCart] = useState(null);
     const navigate = useNavigate();
-    const BASE_URL = 'https://e-commerce-hmvn.onrender.com';
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -14,7 +13,12 @@ const Cart = () => {
                 const res = await api.get('cart/', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setCart(res.data[0]);
+                // ডাটা চেক করা হচ্ছে
+                if (res.data.length > 0) {
+                    setCart(res.data[0]);
+                } else {
+                    setCart({ items: [] });
+                }
             } catch (error) {
                 console.error("Error fetching cart", error);
             }
@@ -23,6 +27,7 @@ const Cart = () => {
     }, []);
 
     const calculateTotal = () => {
+        if (!cart || !cart.items) return "0.00";
         return cart.items.reduce((total, item) => total + (item.product.price * item.quantity), 0).toFixed(2);
     };
 
@@ -35,13 +40,13 @@ const Cart = () => {
                 <p>Cart is empty</p>
             ) : (
                 <>
-                    <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', marginBottom: '20px' }}>
+                    <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '15px', marginBottom: '20px', background: '#fff' }}>
                         {cart.items.map(item => (
                             <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #eee' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                    
+                                   
                                     <img 
-                                        src={item.product.image.startsWith('http') ? item.product.image : `${BASE_URL}${item.product.image}`} 
+                                        src={item.product.display_image} 
                                         alt={item.product.name} 
                                         style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '5px' }} 
                                     />
@@ -55,29 +60,12 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    <div style={{ background: '#f9f9f9', padding: '20px', borderRadius: '8px' }}>
-                        <h3>Payment Method</h3>
-                        <label style={{ display: 'block', marginBottom: '15px', cursor: 'pointer' }}>
-                            <input type="radio" name="payment" checked readOnly /> Cash on Delivery (COD)
-                        </label>
-                        
-                        <button 
-                            onClick={() => navigate('/checkout')}
-                            style={{ 
-                                width: '100%',
-                                padding: '12px', 
-                                background: '#27ae60', 
-                                color: 'white', 
-                                border: 'none', 
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                fontSize: '1rem'
-                            }}
-                        >
-                            Proceed to Checkout
-                        </button>
-                    </div>
+                    <button 
+                        onClick={() => navigate('/checkout')}
+                        style={{ width: '100%', padding: '12px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                    >
+                        Proceed to Checkout
+                    </button>
                 </>
             )}
         </div>
