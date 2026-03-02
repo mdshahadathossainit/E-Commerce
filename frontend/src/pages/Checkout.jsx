@@ -13,7 +13,7 @@ const Checkout = () => {
             try {
                 const res = await api.get('cart/');
                 if (res.data && res.data.length > 0) {
-                    const total = res.data[0].items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                    const total = res.data[0].items.reduce((sum, item) => sum + (parseFloat(item.product.price) * item.quantity), 0);
                     setTotalPrice(total);
                 }
             } catch (err) { console.error(err); }
@@ -26,13 +26,12 @@ const Checkout = () => {
         try {
             await api.post('orders/', {
                 shipping_address: address,
-                payment_method: paymentMethod,
-                total_price: totalPrice 
+                payment_method: paymentMethod
             });
             alert("Order Placed Successfully!");
             navigate('/profile');
         } catch (error) {
-            alert("Order Failed.");
+            alert(error.response?.data?.error || "Order Failed.");
         }
     };
 
@@ -44,7 +43,7 @@ const Checkout = () => {
                 <label>Shipping Address:</label><br />
                 <textarea 
                     required 
-                    style={{ width: '100%', height: '80px', marginBottom: '15px' }} 
+                    style={{ width: '100%', height: '80px', marginBottom: '15px', padding: '10px' }} 
                     onChange={(e) => setAddress(e.target.value)} 
                 />
                 <label>Payment Method:</label><br />
@@ -58,7 +57,7 @@ const Checkout = () => {
                 </select>
                 <button 
                     type="submit" 
-                    style={{ width: '100%', padding: '10px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
+                    style={{ width: '100%', padding: '12px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold', borderRadius: '5px' }}
                 >
                     Confirm Order
                 </button>
