@@ -21,17 +21,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_display_image(self, obj):
         image_to_show = obj.display_image_url
-        
         if not image_to_show:
             return "https://via.placeholder.com/150"
-        
         if str(image_to_show).startswith('http'):
             return image_to_show
-            
-        request = self.context.get('request')
-        if request is not None:
-            return request.build_absolute_uri(image_to_show)
-            
         return f"https://e-commerce-hmvn.onrender.com{image_to_show}"
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -59,7 +52,7 @@ class OrderSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True, read_only=True)
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['id', 'user', 'total_price', 'is_paid', 'paid_at', 'is_delivered', 'shipping_address', 'payment_method', 'order_items']
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
