@@ -9,11 +9,11 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
-        api.get('/categories/').then(res => setCategories(res.data)).catch(err => console.log(err));
+        api.get('categories/').then(res => setCategories(res.data)).catch(err => console.log(err));
     }, []);
 
     useEffect(() => {
-        let url = `/products/?search=${search}`;
+        let url = `products/?search=${search}`;
         if (selectedCategory) {
             url += `&category=${selectedCategory}`;
         }
