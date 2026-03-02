@@ -31,14 +31,25 @@ const ProductDetail = () => {
     if (!product) return <div style={{ padding: '20px' }}>Loading...</div>;
 
     return (
-        <div style={{ padding: '20px' }}>
-            <img src={product.image} alt={product.name} style={{ width: '300px' }} />
-            <h1>{product.name}</h1>
-            <p>{product.description}</p>
-            <h3>Price: ${product.price}</h3>
-            <button onClick={addToCart} style={{ padding: '10px 20px', background: 'blue', color: 'white', border: 'none' }}>
-                Add to Cart
-            </button>
+        <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', gap: '40px', marginTop: '20px' }}>
+                <img 
+                    src={product.display_image} 
+                    alt={product.name} 
+                    style={{ width: '400px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }} 
+                />
+                <div>
+                    <h1>{product.name}</h1>
+                    <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.6' }}>{product.description}</p>
+                    <h2 style={{ color: '#27ae60' }}>Price: ${product.price}</h2>
+                    <button 
+                        onClick={addToCart} 
+                        style={{ padding: '12px 30px', background: '#3498db', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', marginTop: '20px' }}
+                    >
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
