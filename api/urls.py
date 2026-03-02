@@ -8,7 +8,8 @@ from .views import (
     OrderViewSet,  
     RegisterView, 
     CartViewSet,
-    AdminProductStatsView
+    AdminProductStatsView,
+    UserProfileView
 )
 
 router = DefaultRouter()
@@ -25,4 +26,5 @@ urlpatterns = [
     path('products/<slug:slug>/', ProductDetailView.as_view(), name='product-detail'),
     path('categories/', CategoryListView.as_view(), name='category-list'),
     path('admin-stats/', AdminProductStatsView.as_view(), name='admin-stats'),
+    path('profile-update/', UserProfileView.as_view(), name='profile-update'),
 ]
