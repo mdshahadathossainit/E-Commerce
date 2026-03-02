@@ -6,8 +6,8 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [search, setSearch] = useState('');
-    
     const [currentBanner, setCurrentBanner] = useState(0);
+
     const banners = [
         "https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg",
         "https://m.media-amazon.com/images/I/81KkrQWEHIL._SX3000_.jpg",
@@ -33,7 +33,6 @@ const Home = () => {
     return (
         <div style={{ backgroundColor: '#eaeded', minHeight: '100vh' }}>
             
-           
             <div style={{ backgroundColor: '#131921', padding: '10px 0', display: 'flex', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
                 <div style={{ display: 'flex', width: '95%', maxWidth: '1000px', height: '40px', borderRadius: '4px', overflow: 'hidden' }}>
                     <input 
@@ -47,7 +46,6 @@ const Home = () => {
                 </div>
             </div>
 
-            
             <div style={{ backgroundColor: '#232f3e', padding: '8px 20px', display: 'flex', gap: '20px', overflowX: 'auto' }}>
                 <span style={{ color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>All</span>
                 {categories.map(cat => (
@@ -55,7 +53,6 @@ const Home = () => {
                 ))}
             </div>
 
-         
             <div style={{
                 height: '400px',
                 backgroundImage: `url("${banners[currentBanner]}")`,
@@ -70,7 +67,6 @@ const Home = () => {
                 <button onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)} style={sliderNavStyle('right')}>❯</button>
             </div>
 
-            {/* ৪. ক্যাটাগরি গ্রিড উইথ ব্যাকগ্রাউন্ড ইমেজ */}
             <div style={{ maxWidth: '1500px', margin: '-180px auto 0', padding: '0 20px', position: 'relative', zIndex: 10 }}>
                 {categories.map(category => {
                     const categoryProducts = filteredProducts.filter(p => p.category === category.id);
@@ -81,7 +77,6 @@ const Home = () => {
                             marginBottom: '30px',
                             padding: '20px',
                             borderRadius: '8px',
-                            ে
                             backgroundImage: 'url("https://www.transparenttextures.com/patterns/cubes.png"), linear-gradient(135deg, #ffffff 0%, #f3f3f3 100%)',
                             boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
                         }}>
@@ -100,20 +95,16 @@ const Home = () => {
                 })}
             </div>
 
-            
             <footer style={{ backgroundColor: '#232f3e', color: '#fff', padding: '40px 20px', marginTop: '50px', textAlign: 'center' }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                     <h2 style={{ color: '#febd69', marginBottom: '20px' }}>Md Shahadat Hossain</h2>
-                    <p style={{ marginBottom: '25px', fontSize: '14px', color: '#ccc' }}>Connect with me on social platforms</p>
-                    
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
                         <a href="https://github.com/mdshahadathossainit/" target="_blank" rel="noreferrer" style={footerLinkStyle}>Github</a>
-                        <a href="https://mdshahadathossainit.github.io/" target="_blank" rel="noreferrer" style={footerLinkStyle}>Portfolio (GitHub.io)</a>
+                        <a href="https://mdshahadathossainit.github.io/" target="_blank" rel="noreferrer" style={footerLinkStyle}>Portfolio</a>
                         <a href="https://www.linkedin.com/in/mdshahadathossainit/" target="_blank" rel="noreferrer" style={footerLinkStyle}>LinkedIn</a>
-                        <a href="https://facebook.com/your-profile" target="_blank" rel="noreferrer" style={footerLinkStyle}>Facebook</a>
+                        <a href="https://facebook.com/mdshahadathossainit" target="_blank" rel="noreferrer" style={footerLinkStyle}>Facebook</a>
                     </div>
-
-                    <div style={{ marginTop: '40px', borderTop: '1px solid #3a4553', paddingTop: '20px', fontSize: '12px', color: '#aaa' }}>
+                    <div style={{ marginTop: '40px', fontSize: '12px', color: '#aaa' }}>
                         © 2026 E-Commerce Project | Developed with React & Django
                     </div>
                 </div>
@@ -128,14 +119,7 @@ const sliderNavStyle = (dir) => ({
 });
 
 const footerLinkStyle = {
-    color: '#fff',
-    textDecoration: 'none',
-    fontSize: '16px',
-    fontWeight: '500',
-    padding: '10px 20px',
-    border: '1px solid #3a4553',
-    borderRadius: '4px',
-    transition: '0.3s'
+    color: '#fff', textDecoration: 'none', fontSize: '16px', fontWeight: '500', padding: '10px 20px', border: '1px solid #3a4553', borderRadius: '4px'
 };
 
 export default Home;
