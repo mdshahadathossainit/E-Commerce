@@ -16,9 +16,20 @@ const Profile = () => {
                     api.get('profile-update/'),
                     api.get('orders/')
                 ]);
-                setUserData(userRes.data);
+                
+                setUserData({
+                    username: userRes.data.username || '',
+                    email: userRes.data.email || '',
+                    phone: userRes.data.phone || '',
+                    address: userRes.data.address || '',
+                    photo: userRes.data.photo || null
+                });
+
                 setOrders(orderRes.data);
-                if (userRes.data.photo) setPreviewImage(userRes.data.photo);
+                
+                if (userRes.data.photo) {
+                    setPreviewImage(userRes.data.photo);
+                }
             } catch (err) {
                 console.error(err);
             } finally {
@@ -42,16 +53,20 @@ const Profile = () => {
         formData.append('email', userData.email);
         formData.append('phone', userData.phone || '');
         formData.append('address', userData.address || '');
+        
         if (userData.photo instanceof File) {
             formData.append('photo', userData.photo);
         }
 
         try {
-            await api.put('profile-update/', formData, {
+            const res = await api.put('profile-update/', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             alert("Profile updated successfully!");
+            setUserData(res.data);
+            if (res.data.photo) setPreviewImage(res.data.photo);
         } catch (err) {
+            console.error(err);
             alert("Update failed!");
         }
     };
@@ -61,17 +76,21 @@ const Profile = () => {
     return (
         <div style={{ padding: '20px', maxWidth: '1100px', margin: '0 auto' }}>
             <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+                
                 <div style={{ flex: '1', minWidth: '320px', backgroundColor: '#fff', padding: '25px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
                     <h2 style={{ borderBottom: '2px solid #febd69', paddingBottom: '10px', marginBottom: '20px' }}>Profile Settings</h2>
+                    
                     <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                         <img 
                             src={previewImage || "https://via.placeholder.com/150"} 
                             alt="Profile" 
                             style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #febd69' }} 
+                            onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
                         />
                         <br />
                         <input type="file" onChange={handleFileChange} style={{ marginTop: '10px', fontSize: '12px' }} />
                     </div>
+
                     <form onSubmit={handleUpdate}>
                         <div style={{ marginBottom: '15px' }}>
                             <label style={{ fontWeight: 'bold' }}>Username</label>
@@ -83,15 +102,16 @@ const Profile = () => {
                         </div>
                         <div style={{ marginBottom: '15px' }}>
                             <label style={{ fontWeight: 'bold' }}>Phone</label>
-                            <input type="text" value={userData.phone || ''} onChange={(e) => setUserData({...userData, phone: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', marginTop: '5px' }} />
+                            <input type="text" value={userData.phone} onChange={(e) => setUserData({...userData, phone: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', marginTop: '5px' }} />
                         </div>
                         <div style={{ marginBottom: '20px' }}>
                             <label style={{ fontWeight: 'bold' }}>Address</label>
-                            <textarea value={userData.address || ''} onChange={(e) => setUserData({...userData, address: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', marginTop: '5px', height: '80px' }} />
+                            <textarea value={userData.address} onChange={(e) => setUserData({...userData, address: e.target.value})} style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', marginTop: '5px', height: '80px' }} />
                         </div>
-                        <button type="submit" style={{ width: '100%', backgroundColor: '#febd69', border: 'none', padding: '12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Save Profile</button>
+                        <button type="submit" style={{ width: '100%', backgroundColor: '#febd69', border: 'none', padding: '12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Update Profile</button>
                     </form>
                 </div>
+
                 <div style={{ flex: '1.5', minWidth: '350px' }}>
                     <h2 style={{ marginBottom: '20px' }}>Order History</h2>
                     {orders.length === 0 ? <p>No orders yet.</p> : orders.map(order => (
