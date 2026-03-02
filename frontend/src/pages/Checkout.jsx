@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
     const [address, setAddress] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('Stripe');
+    const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery');
+    const [totalPrice, setTotalPrice] = useState(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCartTotal = async () => {
+            try {
+                const res = await api.get('cart/');
+                if (res.data && res.data.length > 0) {
+                    const total = res.data[0].items.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+                    setTotalPrice(total);
+                }
+            } catch (err) { console.error(err); }
+        };
+        fetchCartTotal();
+    }, []);
 
     const handleOrder = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access');
-        
         try {
             await api.post('orders/', {
                 shipping_address: address,
                 payment_method: paymentMethod,
-                total_price: 100 
-            }, {
-                headers: { Authorization: `Bearer ${token}` }
+                total_price: totalPrice 
             });
-
-            if (paymentMethod === 'Stripe') {
-                alert("Redirecting to Stripe Payment Gateway...");
-                alert("Payment Successful!");
-            }
-
-            alert("Order Placed and Paid Successfully!");
+            alert("Order Placed Successfully!");
             navigate('/profile');
         } catch (error) {
             alert("Order Failed.");
@@ -33,8 +37,9 @@ const Checkout = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '400px' }}>
-            <h2>Checkout / Order Summary</h2>
+        <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
+            <h2>Checkout Summary</h2>
+            <p><strong>Total Amount: ${totalPrice.toFixed(2)}</strong></p>
             <form onSubmit={handleOrder}>
                 <label>Shipping Address:</label><br />
                 <textarea 
@@ -42,22 +47,20 @@ const Checkout = () => {
                     style={{ width: '100%', height: '80px', marginBottom: '15px' }} 
                     onChange={(e) => setAddress(e.target.value)} 
                 />
-                
                 <label>Payment Method:</label><br />
                 <select 
                     style={{ width: '100%', padding: '10px', marginBottom: '20px' }} 
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     value={paymentMethod}
                 >
-                    <option value="Stripe">Credit Card (Stripe)</option>
                     <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Stripe">Credit Card (Stripe)</option>
                 </select>
-
                 <button 
                     type="submit" 
-                    style={{ width: '100%', padding: '10px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer' }}
+                    style={{ width: '100%', padding: '10px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}
                 >
-                    Pay & Confirm Order
+                    Confirm Order
                 </button>
             </form>
         </div>
