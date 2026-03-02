@@ -44,7 +44,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user).order_by('-created_at')
+        return Order.objects.filter(user=self.request.user).order_by('-id')
 
     def create(self, request, *args, **kwargs):
         user = request.user
