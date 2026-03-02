@@ -9,17 +9,15 @@ const Cart = () => {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const token = localStorage.getItem('access');
-                const res = await api.get('cart/', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (res.data.length > 0) {
+                const res = await api.get('cart/');
+                if (res.data && res.data.length > 0) {
                     setCart(res.data[0]);
                 } else {
                     setCart({ items: [] });
                 }
             } catch (error) {
                 console.error("Error fetching cart", error);
+                setCart({ items: [] });
             }
         };
         fetchCart();
@@ -58,7 +56,6 @@ const Cart = () => {
                             <strong>Total: ${calculateTotal()}</strong>
                         </div>
                     </div>
-
                     <button 
                         onClick={() => navigate('/checkout')}
                         style={{ width: '100%', padding: '12px', background: '#27ae60', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
