@@ -15,11 +15,9 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     display_image = serializers.SerializerMethodField()
-
     class Meta:
         model = Product
         fields = '__all__'
-
     def get_display_image(self, obj):
         image_to_show = obj.display_image_url
         if not image_to_show:
@@ -30,9 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
-    product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source='product'
-    )
+    product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), source='product')
     class Meta:
         model = CartItem
         fields = ['id', 'product', 'product_id', 'quantity']
@@ -60,7 +56,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'password', 'email', 'phone']
-
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
