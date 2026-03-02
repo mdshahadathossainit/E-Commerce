@@ -22,26 +22,24 @@ const Home = () => {
 
     return (
         <div style={{ backgroundColor: '#eaeded', minHeight: '100vh', paddingBottom: '40px' }}>
-            {/* Amazon Style Hero Section */}
-            <div style={{
-                height: '300px',
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)), url("https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                display: 'flex',
-                alignItems: 'flex-start',
+            
+            {/* 1. Top Search Bar Section (Separate from Banner) */}
+            <div style={{ 
+                backgroundColor: '#131921', 
+                padding: '10px 0', 
+                display: 'flex', 
                 justifyContent: 'center',
-                paddingTop: '20px'
+                position: 'sticky',
+                top: 0,
+                zIndex: 100
             }}>
-                {/* Search & Filter Bar */}
                 <div style={{ 
                     display: 'flex', 
-                    width: '90%', 
-                    maxWidth: '800px', 
-                    height: '45px',
+                    width: '95%', 
+                    maxWidth: '1200px', 
+                    height: '40px',
                     borderRadius: '4px',
-                    overflow: 'hidden',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+                    overflow: 'hidden'
                 }}>
                     <select 
                         onChange={(e) => setSelectedCategory(e.target.value)}
@@ -50,7 +48,8 @@ const Home = () => {
                             backgroundColor: '#f3f3f3', 
                             border: 'none',
                             borderRight: '1px solid #cdcdcd',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            fontSize: '12px'
                         }}
                     >
                         <option value="">All</option>
@@ -68,30 +67,41 @@ const Home = () => {
                             padding: '0 15px', 
                             border: 'none', 
                             outline: 'none',
-                            fontSize: '16px'
+                            fontSize: '15px'
                         }}
                     />
                     <button style={{
-                        padding: '0 20px',
+                        padding: '0 15px',
                         backgroundColor: '#febd69',
                         border: 'none',
                         cursor: 'pointer',
-                        fontSize: '20px'
+                        fontSize: '18px'
                     }}>🔍</button>
                 </div>
             </div>
 
-            {/* Product Grid Layout */}
+            {/* 2. Amazon Style Hero Banner (Now below Search Bar) */}
+            <div style={{
+                height: '400px', // ব্যানার হাইট একটু বাড়ানো হয়েছে
+                backgroundImage: 'url("https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))', // নিচ থেকে ফেড আউট হবে
+                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0))'
+            }}>
+            </div>
+
+            {/* 3. Product Grid Layout (Overlapping effect) */}
             <div style={{ 
                 maxWidth: '1500px', 
-                margin: '-100px auto 0', 
+                margin: '-180px auto 0', // গ্রিডটি ব্যানারের উপরে উঠে আসবে
                 padding: '0 20px',
                 position: 'relative',
                 zIndex: 10
             }}>
                 <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
                     gap: '20px' 
                 }}>
                     {products.length > 0 ? products.map(product => (
@@ -100,8 +110,8 @@ const Home = () => {
                             padding: '20px',
                             display: 'flex',
                             flexDirection: 'column',
-                            borderRadius: '2px',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                            borderRadius: '4px',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.12)'
                         }}>
                             <ProductCard product={product} />
                         </div>
