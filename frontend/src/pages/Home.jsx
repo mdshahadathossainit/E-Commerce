@@ -25,7 +25,7 @@ const Home = () => {
             {/* Amazon Style Hero Section */}
             <div style={{
                 height: '300px',
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)), url("https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Hero/Fuji_TallHero_45M_v2_1x._CB432458380_.jpg")',
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0)), url("https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 display: 'flex',
@@ -60,7 +60,7 @@ const Home = () => {
                     </select>
                     <input 
                         type="text" 
-                        placeholder="Search Amazon style store..." 
+                        placeholder="Search from store..." 
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         style={{ 
