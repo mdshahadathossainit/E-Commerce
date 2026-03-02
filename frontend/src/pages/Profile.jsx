@@ -52,7 +52,6 @@ const Profile = () => {
             });
             alert("Profile updated successfully!");
         } catch (err) {
-            console.error(err);
             alert("Update failed!");
         }
     };
