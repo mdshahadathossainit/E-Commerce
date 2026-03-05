@@ -6,44 +6,45 @@ const ProductCard = ({ product }) => {
 
     return (
         <div style={{ 
-            border: '1px solid #ddd', 
-            padding: '10px', 
-            margin: '5px', 
-            borderRadius: '12px', 
-            width: 'calc(50% - 10px)',
-            maxWidth: '220px',
-            boxSizing: 'border-box',
-            backgroundColor: '#fff', 
-            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-            transition: 'transform 0.2s',
-            display: 'inline-block',
-            verticalAlign: 'top'
+            border: '1px solid #e0e0e0', 
+            padding: '12px', 
+            borderRadius: '16px', 
+            backgroundColor: '#f8f9fa', 
+            boxShadow: '0 6px 15px rgba(0,0,0,0.08)',
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            boxSizing: 'border-box'
         }}>
             <img 
                 src={imageUrl} 
                 alt={product.name} 
                 style={{ 
                     width: '100%', 
-                    height: '140px', 
+                    height: '150px', 
                     objectFit: 'cover', 
-                    borderRadius: '8px' 
+                    borderRadius: '12px',
+                    marginBottom: '10px'
                 }} 
                 onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
             />
             <h3 style={{ 
-                fontSize: '0.9rem', 
-                margin: '10px 0 5px', 
-                height: '38px', 
+                fontSize: '0.95rem', 
+                margin: '5px 0', 
+                height: '40px', 
                 overflow: 'hidden',
-                color: '#333'
+                color: '#2c3e50',
+                lineHeight: '1.3',
+                fontWeight: '600'
             }}>
                 {product.name}
             </h3>
             <p style={{ 
-                fontWeight: 'bold', 
-                color: '#27ae60', 
+                fontWeight: '800', 
+                color: '#2ecc71', 
                 fontSize: '1.1rem',
-                marginBottom: '10px'
+                margin: '8px 0'
             }}>
                 ${product.price}
             </p>
@@ -53,15 +54,16 @@ const ProductCard = ({ product }) => {
                     display: 'block',
                     textDecoration: 'none', 
                     color: '#fff', 
-                    backgroundColor: '#3498db',
-                    padding: '6px 0',
-                    borderRadius: '6px',
+                    backgroundColor: '#131921',
+                    padding: '10px 0',
+                    borderRadius: '8px',
                     textAlign: 'center',
-                    fontWeight: '500',
-                    fontSize: '13px'
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    marginTop: 'auto'
                 }}
             >
-                Details
+                View Details
             </Link>
         </div>
     );
