@@ -25,31 +25,45 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         const data = new FormData();
+        
         for (const key in formData) {
-            data.append(key, formData[key]);
+            if (formData[key] !== null) {
+                data.append(key, formData[key]);
+            }
         }
 
         try {
             await api.post('register/', data);
+            
             const loginRes = await api.post('login/', { 
                 username: formData.username, 
                 password: formData.password 
             });
+            
             localStorage.setItem('access', loginRes.data.access);
             localStorage.setItem('refresh', loginRes.data.refresh);
+            
+            alert('Registration Successful!');
             navigate('/profile');
         } catch (error) {
-            alert('Registration Failed. Check if username exists.');
+            const errorData = error.response?.data;
+            if (errorData?.username) {
+                alert("Username already exists. Please try another one.");
+            } else if (error.response?.status === 500) {
+                alert("Server Error (500). Please check if backend migrations are applied.");
+            } else {
+                alert("Registration Failed. Please check your information.");
+            }
         }
     };
 
     return (
         <div style={containerStyle}>
             <form onSubmit={handleRegister} style={formStyle}>
-                <h2 style={{ textAlign: 'center', color: '#131921' }}>Create Account</h2>
+                <h2 style={{ textAlign: 'center', color: '#131921', marginBottom: '20px' }}>Create Account</h2>
                 
                 <div style={inputGroup}>
-                    <label>Profile Picture</label>
+                    <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>Profile Picture</label>
                     <input type="file" name="photo" onChange={handleChange} accept="image/*" required />
                 </div>
 
@@ -58,7 +72,7 @@ const Register = () => {
                 <input type="email" name="email" placeholder="Email" onChange={handleChange} style={inputStyle} required />
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} style={inputStyle} required />
                 <input type="text" name="phone" placeholder="Phone Number" onChange={handleChange} style={inputStyle} required />
-                <textarea name="address" placeholder="Complete Address" onChange={handleChange} style={{ ...inputStyle, height: '80px' }} required />
+                <textarea name="address" placeholder="Complete Address" onChange={handleChange} style={{ ...inputStyle, height: '80px', resize: 'none' }} required />
                 
                 <button type="submit" style={btnStyle}>Sign Up & View Profile</button>
             </form>
@@ -78,15 +92,17 @@ const formStyle = {
 
 const inputStyle = {
     width: '100%', padding: '12px', margin: '10px 0', 
-    borderRadius: '4px', border: '1px solid #ddd', boxSizing: 'border-box'
+    borderRadius: '4px', border: '1px solid #ddd', boxSizing: 'border-box',
+    fontSize: '14px'
 };
 
-const inputGroup = { margin: '10px 0' };
+const inputGroup = { margin: '15px 0' };
 
 const btnStyle = {
     width: '100%', padding: '12px', backgroundColor: '#febd69', 
     border: '1px solid #a88734', borderRadius: '4px', cursor: 'pointer', 
-    fontWeight: 'bold', fontSize: '16px', marginTop: '10px'
+    fontWeight: 'bold', fontSize: '16px', marginTop: '15px',
+    transition: 'background 0.3s'
 };
 
 export default Register;
