@@ -11,7 +11,6 @@ const ProductCard = ({ product }) => {
             borderRadius: '16px', 
             backgroundColor: '#f8f9fa', 
             boxShadow: '0 6px 15px rgba(0,0,0,0.08)',
-            transition: 'transform 0.3s ease',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
@@ -22,7 +21,7 @@ const ProductCard = ({ product }) => {
                 alt={product.name} 
                 style={{ 
                     width: '100%', 
-                    height: '130px', 
+                    height: '140px', 
                     objectFit: 'cover', 
                     borderRadius: '12px',
                     marginBottom: '8px'
@@ -30,9 +29,9 @@ const ProductCard = ({ product }) => {
                 onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
             />
             <h3 style={{ 
-                fontSize: '0.85rem', 
+                fontSize: '0.9rem', 
                 margin: '5px 0', 
-                height: '34px', 
+                height: '38px', 
                 overflow: 'hidden',
                 color: '#2c3e50',
                 lineHeight: '1.2',
@@ -43,7 +42,7 @@ const ProductCard = ({ product }) => {
             <p style={{ 
                 fontWeight: '800', 
                 color: '#2ecc71', 
-                fontSize: '1rem',
+                fontSize: '1.1rem',
                 margin: '5px 0'
             }}>
                 ${product.price}
@@ -59,7 +58,7 @@ const ProductCard = ({ product }) => {
                     borderRadius: '8px',
                     textAlign: 'center',
                     fontWeight: '600',
-                    fontSize: '12px',
+                    fontSize: '13px',
                     marginTop: 'auto'
                 }}
             >
