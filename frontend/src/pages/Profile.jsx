@@ -50,13 +50,16 @@ const Profile = () => {
             </div>
         </div>
     );
-
     const getProfileImage = () => {
-        if (user.photo_url) return user.photo_url;
-        if (user.photo) {
-            return user.photo.startsWith('http') ? user.photo : `https://e-commerce-hmvn.onrender.com${user.photo}`;
+        if (user.photo_url && !user.photo_url.includes('via.placeholder')) {
+            return user.photo_url;
         }
-        return "https://via.placeholder.com/150";
+        if (user.photo) {
+            return user.photo.startsWith('http') 
+                ? user.photo 
+                : `https://e-commerce-hmvn.onrender.com${user.photo}`;
+        }
+        return `https://ui-avatars.com/api/?name=${user.username}&background=febd69&color=fff`;
     };
 
     return (
@@ -117,93 +120,26 @@ const Profile = () => {
     );
 };
 
-const pageBackground = {
-    backgroundColor: '#f4f7f9',
-    minHeight: '100vh',
-    padding: '40px 20px',
-    fontFamily: "'Inter', sans-serif"
-};
-
-const contentWrapper = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    display: 'flex',
-    gap: '30px',
-    flexWrap: 'wrap'
-};
-
-const profileSidebar = {
-    flex: '1',
-    minWidth: '320px',
-    backgroundColor: '#fff',
-    padding: '40px 20px',
-    borderRadius: '20px',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-    textAlign: 'center',
-    height: 'fit-content'
-};
-
-const imageWrapper = {
-    width: '160px',
-    height: '160px',
-    margin: '0 auto 20px',
-    borderRadius: '50%',
-    padding: '5px',
-    background: 'linear-gradient(45deg, #febd69, #f90)'
-};
-
-const profileImg = {
-    width: '100%',
-    height: '100%',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    border: '4px solid #fff'
-};
-
+const pageBackground = { backgroundColor: '#f4f7f9', minHeight: '100vh', padding: '40px 20px', fontFamily: "'Inter', sans-serif" };
+const contentWrapper = { maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '30px', flexWrap: 'wrap' };
+const profileSidebar = { flex: '1', minWidth: '320px', backgroundColor: '#fff', padding: '40px 20px', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', textAlign: 'center', height: 'fit-content' };
+const imageWrapper = { width: '160px', height: '160px', margin: '0 auto 20px', borderRadius: '50%', padding: '5px', background: 'linear-gradient(45deg, #febd69, #f90)' };
+const profileImg = { width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', border: '4px solid #fff' };
 const userName = { fontSize: '24px', color: '#131921', margin: '10px 0 5px', fontWeight: '700' };
 const userTag = { color: '#888', marginBottom: '25px', fontSize: '14px' };
-
 const detailsBox = { textAlign: 'left', marginBottom: '30px' };
-const detailItem = {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '12px 0',
-    borderBottom: '1px solid #f0f0f0'
-};
-
-const editBtn = {
-    width: '100%',
-    padding: '12px',
-    backgroundColor: '#131921',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    fontWeight: '600'
-};
-
+const detailItem = { display: 'flex', flexDirection: 'column', padding: '12px 0', borderBottom: '1px solid #f0f0f0' };
+const editBtn = { width: '100%', padding: '12px', backgroundColor: '#131921', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '600' };
 const orderSection = { flex: '2', minWidth: '350px' };
 const sectionTitle = { fontSize: '22px', color: '#131921', marginBottom: '20px', fontWeight: '700' };
-
 const orderGrid = { display: 'flex', flexDirection: 'column', gap: '15px' };
-
-const orderCard = {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '15px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
-    borderLeft: '6px solid #febd69',
-    transition: 'transform 0.2s'
-};
-
+const orderCard = { backgroundColor: '#fff', padding: '20px', borderRadius: '15px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', borderLeft: '6px solid #febd69', transition: 'transform 0.2s' };
 const orderHeader = { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' };
 const orderId = { fontWeight: '700', color: '#131921' };
 const orderDate = { fontSize: '13px', color: '#999' };
-
 const orderBody = { display: 'flex', justifyContent: 'space-between', alignItems: 'center' };
 const priceTag = { fontSize: '18px', fontWeight: '700', color: '#27ae60' };
 const statusTag = { fontSize: '14px', fontWeight: '600', color: '#555' };
-
 const noOrderBox = { padding: '40px', textAlign: 'center', backgroundColor: '#fff', borderRadius: '15px', color: '#888' };
 const loaderContainer = { display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' };
 const loader = { width: '40px', height: '40px', border: '4px solid #f3f3f3', borderTop: '4px solid #febd69', borderRadius: '50%', animation: 'spin 1s linear infinite' };
