@@ -34,6 +34,7 @@ const Profile = () => {
                         src={user.photo || "https://via.placeholder.com/150"} 
                         alt="Profile" 
                         style={profileImg} 
+                        onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
                     />
                     <h2 style={{ marginTop: '15px' }}>{user.first_name}</h2>
                     <p><strong>Username:</strong> @{user.username}</p>
