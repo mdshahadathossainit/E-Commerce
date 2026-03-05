@@ -19,7 +19,7 @@ const Profile = () => {
                 setOrders(orderRes.data);
             } catch (err) {
                 console.error("Fetch error:", err);
-                if (err.response && err.response.status === 401) {
+                if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                     navigate('/login');
                 }
             } finally {
@@ -33,8 +33,8 @@ const Profile = () => {
 
     if (!user) return (
         <div style={{ padding: '20px', textAlign: 'center' }}>
-            <p>User data not found. Please login again.</p>
-            <button onClick={() => navigate('/login')}>Go to Login</button>
+            <p>User data not available (Server Error 500). Please ensure your backend is running correctly.</p>
+            <button onClick={() => navigate('/login')}>Try Login Again</button>
         </div>
     );
 
@@ -43,12 +43,12 @@ const Profile = () => {
             <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
                 <div style={infoCard}>
                     <img 
-                        src={user.photo || "https://via.placeholder.com/150"} 
+                        src={user && user.photo ? user.photo : "https://via.placeholder.com/150"} 
                         alt="Profile" 
                         style={profileImg} 
                         onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
                     />
-                    <h2 style={{ marginTop: '15px' }}>{user.first_name || 'No Name Provided'}</h2>
+                    <h2 style={{ marginTop: '15px' }}>{user.first_name || 'No Name'}</h2>
                     <p><strong>Username:</strong> @{user.username}</p>
                     <p><strong>Email:</strong> {user.email}</p>
                     <p><strong>Phone:</strong> {user.phone || 'N/A'}</p>
@@ -79,31 +79,8 @@ const Profile = () => {
     );
 };
 
-const infoCard = { 
-    flex: '1', 
-    minWidth: '300px', 
-    backgroundColor: '#fff', 
-    padding: '25px', 
-    borderRadius: '10px', 
-    boxShadow: '0 2px 10px rgba(0,0,0,0.1)', 
-    textAlign: 'center' 
-};
-
-const profileImg = { 
-    width: '150px', 
-    height: '150px', 
-    borderRadius: '50%', 
-    objectFit: 'cover', 
-    border: '4px solid #febd69' 
-};
-
-const orderItem = { 
-    backgroundColor: '#fff', 
-    padding: '15px', 
-    marginBottom: '15px', 
-    borderRadius: '8px', 
-    borderLeft: '6px solid #febd69', 
-    boxShadow: '0 1px 4px rgba(0,0,0,0.1)' 
-};
+const infoCard = { flex: '1', minWidth: '300px', backgroundColor: '#fff', padding: '25px', borderRadius: '10px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', textAlign: 'center' };
+const profileImg = { width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover', border: '4px solid #febd69' };
+const orderItem = { backgroundColor: '#fff', padding: '15px', marginBottom: '15px', borderRadius: '8px', borderLeft: '6px solid #febd69', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' };
 
 export default Profile;
