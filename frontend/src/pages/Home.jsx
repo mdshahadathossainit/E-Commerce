@@ -43,16 +43,16 @@ const Home = () => {
     return (
         <div style={{ backgroundColor: '#eaeded', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
             
-            {/* --- Final Single Navbar --- */}
+            {/* --- Single Modern Navbar --- */}
             <header style={navContainer}>
-                {/* Home / Logo Section */}
+                {/* Logo & Home Button Combined */}
                 <div style={logoWrapper} onClick={() => navigate('/')}>
                     <h2 style={{ color: '#fff', margin: 0, fontSize: '20px', cursor: 'pointer' }}>
                         <span style={{ color: '#febd69' }}>🏠 Home</span>
                     </h2>
                 </div>
 
-                {/* Location Area */}
+                {/* Delivery Location */}
                 <div style={navItem}>
                     <span style={topText}>Delivering to</span>
                     <div style={{ display: 'flex', alignItems: 'center', color: '#fff', fontWeight: 'bold', fontSize: '13px' }}>
@@ -60,11 +60,11 @@ const Home = () => {
                     </div>
                 </div>
 
-                {/* Search Bar */}
+                {/* Main Search Bar */}
                 <div style={searchWrapper}>
                     <select style={searchSelect}>
                         <option>All Categories</option>
-                        {categories.map(cat => <option key={cat.id}>{cat.name}</option>)}
+                        {categories.map(cat => <option key={cat.id} value={cat.slug}>{cat.name}</option>)}
                     </select>
                     <input 
                         type="text" 
@@ -76,7 +76,7 @@ const Home = () => {
                     <button style={searchBtn}>🔍</button>
                 </div>
 
-                {/* Language Picker */}
+                {/* Language/Flag Picker */}
                 <div style={navItem}>
                     <select 
                         style={langSelect} 
@@ -88,18 +88,18 @@ const Home = () => {
                     </select>
                 </div>
 
-                {/* Sign In */}
+                {/* Sign In Link */}
                 <div onClick={() => navigate('/login')} style={navLinkPointer}>
                     <span style={topText}>Hello, User</span>
                     <div style={bottomText}>Sign In</div>
                 </div>
 
-                {/* Live Clock */}
+                {/* Live Digital Clock */}
                 <div style={navItem}>
                     <div style={clockDisplay}>{time}</div>
                 </div>
 
-                {/* Final Register Button */}
+                {/* Register Highlight Button */}
                 <Link to="/register" style={navLink}>
                     <div style={registerBtn}>
                         Register
@@ -107,7 +107,7 @@ const Home = () => {
                 </Link>
             </header>
 
-            {/* --- Banner Section --- */}
+            {/* --- Banner Carousel --- */}
             <div style={{
                 height: '400px',
                 backgroundImage: `url("${banners[currentBanner]}")`,
@@ -122,7 +122,7 @@ const Home = () => {
                 <button onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)} style={sliderNavStyle('right')}>❯</button>
             </div>
 
-            {/* --- Product Grid Section --- */}
+            {/* --- Categories & Products Section --- */}
             <div style={{ maxWidth: '1500px', margin: '-180px auto 0', padding: '0 20px', position: 'relative', zIndex: 10 }}>
                 {categories.map(category => {
                     const categoryProducts = filteredProducts.filter(p => p.category === category.id);
@@ -145,7 +145,7 @@ const Home = () => {
                 })}
             </div>
 
-            {/* --- Footer Section --- */}
+            {/* --- Professional Footer --- */}
             <footer style={footerStyle}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                     <h2 style={{ color: '#febd69', marginBottom: '15px' }}>Md Shahadat Hossain</h2>
@@ -154,7 +154,7 @@ const Home = () => {
                         <a href="https://mdshahadathossainit.github.io/" target="_blank" rel="noreferrer" style={footerLink}>Portfolio</a>
                     </div>
                     <p style={{ marginTop: '30px', fontSize: '12px', color: '#888' }}>
-                        © 2026 E-Commerce Project | Developed with React & Django
+                        © 2026 E-Commerce Project | Built with React & Django REST Framework
                     </p>
                 </div>
             </footer>
@@ -172,14 +172,15 @@ const navContainer = {
     gap: '15px',
     position: 'sticky',
     top: 0,
-    zIndex: 1000
+    zIndex: 1000,
+    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
 };
 
 const logoWrapper = { 
     padding: '5px 10px', 
-    border: '1px solid transparent', 
     cursor: 'pointer',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    transition: '0.2s'
 };
 
 const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
@@ -235,37 +236,68 @@ const clockDisplay = {
     padding: '4px 12px',
     borderRadius: '4px',
     backgroundColor: '#232f3e',
-    border: '1px solid #3a4553'
+    border: '1px solid #3a4553',
+    minWidth: '80px',
+    textAlign: 'center'
 };
 
 const registerBtn = {
     backgroundColor: '#febd69',
     color: '#111',
-    padding: '7px 15px',
+    padding: '7px 18px',
     borderRadius: '4px',
     fontWeight: 'bold',
     fontSize: '13px',
-    border: '1px solid #a88734'
+    border: '1px solid #a88734',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
 };
 
 const categorySection = { 
-    marginBottom: '25px',
+    marginBottom: '30px',
     padding: '20px',
     borderRadius: '8px',
     backgroundColor: '#fff',
-    boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
 };
 
-const categoryTitle = { marginBottom: '15px', color: '#111', borderBottom: '2px solid #febd69', display: 'inline-block', paddingBottom: '4px' };
-const productGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' };
+const categoryTitle = { 
+    marginBottom: '20px', 
+    color: '#111', 
+    borderBottom: '3px solid #febd69', 
+    display: 'inline-block', 
+    paddingBottom: '5px',
+    fontSize: '20px'
+};
+
+const productGrid = { 
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', 
+    gap: '20px' 
+};
+
 const productCardWrapper = { transition: 'transform 0.2s' };
 
-const footerStyle = { backgroundColor: '#232f3e', color: '#fff', padding: '40px 20px', marginTop: '40px', textAlign: 'center' };
-const footerLink = { color: '#ccc', textDecoration: 'none', fontSize: '14px', padding: '8px 15px', border: '1px solid #444', borderRadius: '4px' };
+const footerStyle = { 
+    backgroundColor: '#232f3e', 
+    color: '#fff', 
+    padding: '50px 20px', 
+    marginTop: '50px', 
+    textAlign: 'center' 
+};
+
+const footerLink = { 
+    color: '#ccc', 
+    textDecoration: 'none', 
+    fontSize: '14px', 
+    padding: '10px 20px', 
+    border: '1px solid #444', 
+    borderRadius: '4px',
+    transition: '0.3s'
+};
 
 const sliderNavStyle = (dir) => ({
-    position: 'absolute', top: '45%', [dir]: '20px', backgroundColor: 'rgba(255,255,255,0.5)', 
-    border: 'none', color: '#000', fontSize: '24px', width: '45px', height: '45px', cursor: 'pointer', zIndex: 20, borderRadius: '50%'
+    position: 'absolute', top: '45%', [dir]: '20px', backgroundColor: 'rgba(255,255,255,0.6)', 
+    border: 'none', color: '#000', fontSize: '26px', width: '50px', height: '50px', cursor: 'pointer', zIndex: 20, borderRadius: '50%'
 });
 
 export default Home;
