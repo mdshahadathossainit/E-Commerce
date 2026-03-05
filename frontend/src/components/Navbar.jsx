@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,7 +10,19 @@ const Navbar = () => {
         const clockTimer = setInterval(() => {
             setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
         }, 1000);
-        return () => clearInterval(clockTimer);
+
+        const checkAuth = () => {
+            setIsLoggedIn(!!localStorage.getItem('access'));
+        };
+
+        window.addEventListener('storage', checkAuth);
+        const authInterval = setInterval(checkAuth, 1000);
+
+        return () => {
+            clearInterval(clockTimer);
+            clearInterval(authInterval);
+            window.removeEventListener('storage', checkAuth);
+        };
     }, []);
 
     const handleLogout = () => {
@@ -33,41 +44,58 @@ const Navbar = () => {
             <div style={searchWrapper}>
                 <input 
                     type="text" 
-                    placeholder="Search for amazing products..." 
+                    placeholder="Search for products..." 
                     style={searchInput}
                 />
                 <button style={searchBtn}>🔍</button>
             </div>
 
-            {isLoggedIn ? (
-                <div onClick={handleLogout} style={navLinkPointer}>
-                    <span style={topText}>Hello, User</span>
-                    <div style={{...bottomText, color: '#ff4d4d'}}>Logout</div>
-                </div>
-            ) : (
-                <div onClick={() => navigate('/login')} style={navLinkPointer}>
-                    <span style={topText}>Hello, Guest</span>
-                    <div style={bottomText}>Sign In</div>
-                </div>
-            )}
+            <div style={navItemsGroup}>
+                {isLoggedIn ? (
+                    <>
+                        <Link to="/cart" style={navLink}>
+                            <span style={topText}>Shopping</span>
+                            <div style={bottomText}>🛒 Cart</div>
+                        </Link>
 
-            <div style={navItem}>
-                <div style={clockDisplay}>{time}</div>
+                        <Link to="/profile" style={navLink}>
+                            <span style={topText}>My Account</span>
+                            <div style={bottomText}>👤 Profile</div>
+                        </Link>
+
+                        <div onClick={handleLogout} style={navLinkPointer}>
+                            <span style={topText}>Sign Out</span>
+                            <div style={{...bottomText, color: '#ff4d4d'}}>Logout</div>
+                        </div>
+                    </>
+                ) : (
+                    <div onClick={() => navigate('/login')} style={navLinkPointer}>
+                        <span style={topText}>Hello, Guest</span>
+                        <div style={bottomText}>Sign In</div>
+                    </div>
+                )}
+
+                <div style={navItem}>
+                    <div style={clockDisplay}>{time}</div>
+                </div>
+
+                {!isLoggedIn && (
+                    <Link to="/register" style={navLink}>
+                        <div style={registerBtn}>Register</div>
+                    </Link>
+                )}
             </div>
-
-            <Link to="/register" style={navLink}>
-                <div style={registerBtn}>Register</div>
-            </Link>
         </header>
     );
 };
 
 const navContainer = { backgroundColor: '#131921', padding: '10px 25px', display: 'flex', alignItems: 'center', gap: '20px', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 4px 10px rgba(0,0,0,0.3)' };
 const logoWrapper = { padding: '5px 12px', cursor: 'pointer' };
+const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '20px' };
 const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
-const navLink = { textDecoration: 'none', color: '#fff' };
-const navLinkPointer = { ...navLink, cursor: 'pointer', padding: '5px' };
-const topText = { fontSize: '11px', color: '#aaa' };
+const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column', padding: '5px' };
+const navLinkPointer = { ...navLink, cursor: 'pointer' };
+const topText = { fontSize: '11px', color: '#aaa', fontWeight: '500' };
 const bottomText = { fontSize: '14px', fontWeight: '800', color: '#fff' };
 const searchWrapper = { flex: 1, display: 'flex', height: '38px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#fff' };
 const searchInput = { flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '14px' };
