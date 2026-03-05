@@ -25,7 +25,7 @@ const Profile = () => {
                     localStorage.removeItem('access');
                     localStorage.removeItem('refresh');
                 } else {
-                    setErrorMsg("Server error. Please check backend logs.");
+                    setErrorMsg("Server error. Please ensure migrations are applied on backend.");
                 }
             } finally {
                 setLoading(false);
@@ -48,13 +48,20 @@ const Profile = () => {
             </button>
         </div>
     );
+    const getProfileImage = () => {
+        if (user.photo_url) return user.photo_url;
+        if (user.photo) {
+            return user.photo.startsWith('http') ? user.photo : `https://e-commerce-hmvn.onrender.com${user.photo}`;
+        }
+        return "https://via.placeholder.com/150";
+    };
 
     return (
         <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
             <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
                 <div style={infoCard}>
                     <img 
-                        src={user.photo ? (user.photo.startsWith('http') ? user.photo : `https://e-commerce-hmvn.onrender.com${user.photo}`) : "https://via.placeholder.com/150"} 
+                        src={getProfileImage()} 
                         alt="Profile" 
                         style={profileImg} 
                         onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
@@ -70,6 +77,9 @@ const Profile = () => {
                     {orders.length === 0 ? <p>No orders yet.</p> : orders.map(order => (
                         <div key={order.id} style={orderItem}>
                             <strong>Order #{order.id}</strong> - ${order.total_price}
+                            <span style={{ float: 'right', fontSize: '12px', color: '#888' }}>
+                                {new Date(order.created_at).toLocaleDateString()}
+                            </span>
                         </div>
                     ))}
                 </div>
