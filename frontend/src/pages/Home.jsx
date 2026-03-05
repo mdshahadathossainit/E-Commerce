@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api';
+import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [search, setSearch] = useState('');
     const [currentBanner, setCurrentBanner] = useState(0);
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
 
     const banners = [
         "https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg",
@@ -15,10 +17,16 @@ const Home = () => {
     ];
 
     useEffect(() => {
-        const timer = setInterval(() => {
+        const clockTimer = setInterval(() => {
+            setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+        }, 1000);
+        const bannerTimer = setInterval(() => {
             setCurrentBanner((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
         }, 5000);
-        return () => clearInterval(timer);
+        return () => {
+            clearInterval(clockTimer);
+            clearInterval(bannerTimer);
+        };
     }, [banners.length]);
 
     useEffect(() => {
@@ -31,26 +39,75 @@ const Home = () => {
     );
 
     return (
-        <div style={{ backgroundColor: '#eaeded', minHeight: '100vh' }}>
+        <div style={{ backgroundColor: '#eaeded', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
             
-            <div style={{ backgroundColor: '#131921', padding: '10px 0', display: 'flex', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
-                <div style={{ display: 'flex', width: '95%', maxWidth: '1000px', height: '40px', borderRadius: '4px', overflow: 'hidden' }}>
+            <header style={navContainer}>
+                <div style={logoWrapper}>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <h2 style={{ color: '#fff', margin: 0, fontSize: '22px' }}>
+                            <span style={{ color: '#febd69' }}>My</span> E-Commerce
+                        </h2>
+                    </Link>
+                </div>
+
+                <div style={navItem}>
+                    <span style={topText}>Delivering to</span>
+                    <div style={{ display: 'flex', alignItems: 'center', color: '#fff', fontWeight: 'bold', fontSize: '14px' }}>
+                        <span style={{ marginRight: '4px' }}>📍</span> Bangladesh
+                    </div>
+                </div>
+
+                <div style={searchWrapper}>
+                    <select style={searchSelect}>
+                        <option>All</option>
+                        {categories.map(cat => <option key={cat.id}>{cat.name}</option>)}
+                    </select>
                     <input 
                         type="text" 
                         placeholder="Search products..." 
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        style={{ flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '15px' }}
+                        style={searchInput}
                     />
-                    <button style={{ padding: '0 20px', backgroundColor: '#febd69', border: 'none', cursor: 'pointer', fontSize: '18px' }}>🔍</button>
+                    <button style={searchBtn}>🔍</button>
                 </div>
-            </div>
 
-            <div style={{ backgroundColor: '#232f3e', padding: '8px 20px', display: 'flex', gap: '20px', overflowX: 'auto' }}>
-                <span style={{ color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>All</span>
-                {categories.map(cat => (
-                    <a key={cat.id} href={`#cat-${cat.id}`} style={{ color: '#fff', textDecoration: 'none', fontSize: '14px' }}>{cat.name}</a>
-                ))}
+                <div style={navItem}>
+                    <div style={{ display: 'flex', alignItems: 'center', color: '#fff', fontWeight: 'bold', fontSize: '14px' }}>
+                        <span style={{ marginRight: '5px' }}>🇧🇩</span> BN
+                    </div>
+                </div>
+
+                <Link to="/profile" style={navLink}>
+                    <span style={topText}>Hello, Sign in</span>
+                    <div style={bottomText}>Account & Lists</div>
+                </Link>
+
+                <Link to="/profile" style={navLink}>
+                    <span style={topText}>Returns</span>
+                    <div style={bottomText}>& Orders</div>
+                </Link>
+
+                <div style={navItem}>
+                    <div style={clockDisplay}>{time}</div>
+                </div>
+
+                <Link to="/cart" style={navLink}>
+                    <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                        <span style={{ fontSize: '26px' }}>🛒</span>
+                        <span style={cartCount}>0</span>
+                        <span style={{ ...bottomText, marginLeft: '5px', marginTop: '10px' }}>Cart</span>
+                    </div>
+                </Link>
+            </header>
+
+            <div style={subNavbar}>
+                <span style={subNavLink}>☰ All</span>
+                <span style={subNavLink}>Today's Deals</span>
+                <span style={subNavLink}>Customer Service</span>
+                <span style={subNavLink}>Registry</span>
+                <span style={subNavLink}>Gift Cards</span>
+                <span style={subNavLink}>Sell</span>
             </div>
 
             <div style={{
@@ -112,6 +169,89 @@ const Home = () => {
         </div>
     );
 };
+
+const navContainer = {
+    backgroundColor: '#131921',
+    padding: '10px 20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '15px',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000
+};
+
+const logoWrapper = { padding: '5px', cursor: 'pointer' };
+const navItem = { display: 'flex', flexDirection: 'column', padding: '5px', cursor: 'pointer' };
+const navLink = { textDecoration: 'none', display: 'flex', flexDirection: 'column', padding: '5px', color: '#fff' };
+const topText = { fontSize: '12px', color: '#ccc' };
+const bottomText = { fontSize: '14px', fontWeight: 'bold' };
+
+const searchWrapper = {
+    flex: 1,
+    display: 'flex',
+    height: '40px',
+    borderRadius: '4px',
+    overflow: 'hidden',
+    backgroundColor: '#fff'
+};
+
+const searchSelect = {
+    backgroundColor: '#f3f3f3',
+    border: 'none',
+    padding: '0 10px',
+    borderRight: '1px solid #ccc',
+    cursor: 'pointer',
+    outline: 'none'
+};
+
+const searchInput = { flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '15px' };
+
+const searchBtn = {
+    padding: '0 20px',
+    backgroundColor: '#febd69',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: '18px'
+};
+
+const clockDisplay = {
+    color: '#febd69',
+    fontWeight: 'bold',
+    fontSize: '15px',
+    border: '1px solid #444',
+    padding: '5px 12px',
+    borderRadius: '4px',
+    backgroundColor: '#232f3e',
+    minWidth: '85px',
+    textAlign: 'center'
+};
+
+const cartCount = {
+    position: 'absolute',
+    top: '-8px',
+    left: '10px',
+    backgroundColor: '#131921',
+    color: '#f90',
+    fontWeight: 'bold',
+    fontSize: '14px',
+    width: '18px',
+    height: '18px',
+    textAlign: 'center',
+    borderRadius: '50%'
+};
+
+const subNavbar = {
+    backgroundColor: '#232f3e',
+    padding: '8px 20px',
+    display: 'flex',
+    gap: '20px',
+    color: '#fff',
+    fontSize: '14px',
+    overflowX: 'auto'
+};
+
+const subNavLink = { cursor: 'pointer', whiteSpace: 'nowrap' };
 
 const sliderNavStyle = (dir) => ({
     position: 'absolute', top: '40%', [dir]: '20px', backgroundColor: 'rgba(255,255,255,0.4)', 
