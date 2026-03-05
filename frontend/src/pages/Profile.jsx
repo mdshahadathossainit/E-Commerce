@@ -50,15 +50,22 @@ const Profile = () => {
             </div>
         </div>
     );
+
     const getProfileImage = () => {
         if (user.photo_url && !user.photo_url.includes('via.placeholder')) {
             return user.photo_url;
         }
+
         if (user.photo) {
-            return user.photo.startsWith('http') 
-                ? user.photo 
-                : `https://e-commerce-hmvn.onrender.com${user.photo}`;
+            if (user.photo.startsWith('http')) {
+                return user.photo;
+            }
+            if (user.photo.startsWith('/media/')) {
+                return `https://e-commerce-hmvn.onrender.com${user.photo}`;
+            }
+            return `https://e-commerce-hmvn.onrender.com/media/${user.photo}`;
         }
+
         return `https://ui-avatars.com/api/?name=${user.username}&background=febd69&color=fff`;
     };
 
@@ -71,7 +78,9 @@ const Profile = () => {
                             src={getProfileImage()} 
                             alt="Profile" 
                             style={profileImg} 
-                            onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
+                            onError={(e) => { 
+                                e.target.src = "https://ui-avatars.com/api/?name=" + user.username + "&background=febd69&color=fff"; 
+                            }}
                         />
                     </div>
                     <h2 style={userName}>{user.first_name || user.username}</h2>
