@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'https://e-commerce-hmvn.onrender.com/api'
+    baseURL: 'https://e-commerce-hmvn.onrender.com/api/'
 });
 
 API.interceptors.request.use((config) => {
@@ -14,4 +14,5 @@ API.interceptors.request.use((config) => {
 
 export const fetchProducts = () => API.get('products/');
 export const fetchCategories = () => API.get('categories/');
+
 export default API;
