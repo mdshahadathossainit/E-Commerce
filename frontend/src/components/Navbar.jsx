@@ -35,7 +35,6 @@ const Navbar = () => {
 
     return (
         <header style={navContainer}>
-            {/* Logo Section */}
             <div style={logoWrapper} onClick={() => navigate('/')}>
                 <img 
                     src="https://imgur.com/N3dd1YI.png" 
@@ -45,6 +44,10 @@ const Navbar = () => {
                 <h2 style={logoTextStyle}>
                     Talha <span style={{ color: '#febd69' }}>E-Commerce</span>
                 </h2>
+                <div style={homeLinkStyle}>
+                    <span style={topText}>Explore</span>
+                    <div style={bottomText}>🏠 Home</div>
+                </div>
             </div>
 
             <div style={searchWrapper}>
@@ -95,8 +98,6 @@ const Navbar = () => {
     );
 };
 
-// --- Styles ---
-
 const navContainer = { 
     backgroundColor: '#131921', 
     padding: '8px 25px', 
@@ -112,7 +113,7 @@ const navContainer = {
 const logoWrapper = { 
     display: 'flex', 
     alignItems: 'center', 
-    gap: '10px', 
+    gap: '15px', 
     cursor: 'pointer',
     padding: '5px' 
 };
@@ -133,6 +134,14 @@ const logoTextStyle = {
     letterSpacing: '0.5px' 
 };
 
+const homeLinkStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '5px',
+    paddingLeft: '15px',
+    borderLeft: '1px solid #444'
+};
+
 const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '20px' };
 const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
 const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column', padding: '5px' };
@@ -140,7 +149,7 @@ const navLinkPointer = { ...navLink, cursor: 'pointer' };
 const topText = { fontSize: '11px', color: '#aaa', fontWeight: '500' };
 const bottomText = { fontSize: '14px', fontWeight: '800', color: '#fff' };
 const searchWrapper = { flex: 1, display: 'flex', height: '38px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#fff' };
-const searchInput = { flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '14px' };
+const searchInput = { flex: 1, padding: '0 12px', border: 'none', outline: 'none', fontSize: '14px' };
 const searchBtn = { padding: '0 20px', backgroundColor: '#febd69', border: 'none', cursor: 'pointer', fontSize: '18px' };
 const clockDisplay = { color: '#febd69', fontWeight: '800', fontSize: '14px', padding: '6px 14px', borderRadius: '6px', backgroundColor: '#232f3e', border: '1px solid #3a4553', minWidth: '90px', textAlign: 'center' };
 const registerBtn = { backgroundColor: '#febd69', color: '#111', padding: '7px 18px', borderRadius: '4px', fontWeight: '800', fontSize: '13px', border: '1px solid #a88734' };
