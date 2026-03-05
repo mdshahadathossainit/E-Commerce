@@ -35,9 +35,15 @@ const Navbar = () => {
 
     return (
         <header style={navContainer}>
+            {/* Logo Section */}
             <div style={logoWrapper} onClick={() => navigate('/')}>
-                <h2 style={{ color: '#fff', margin: 0, fontSize: '20px', cursor: 'pointer' }}>
-                    <span style={{ color: '#febd69' }}>🏠 Home</span>
+                <img 
+                    src="https://imgur.com/N3dd1YI.png" 
+                    alt="Talha E-Commerce" 
+                    style={logoStyle} 
+                />
+                <h2 style={logoTextStyle}>
+                    Talha <span style={{ color: '#febd69' }}>E-Commerce</span>
                 </h2>
             </div>
 
@@ -89,8 +95,44 @@ const Navbar = () => {
     );
 };
 
-const navContainer = { backgroundColor: '#131921', padding: '10px 25px', display: 'flex', alignItems: 'center', gap: '20px', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 4px 10px rgba(0,0,0,0.3)' };
-const logoWrapper = { padding: '5px 12px', cursor: 'pointer' };
+// --- Styles ---
+
+const navContainer = { 
+    backgroundColor: '#131921', 
+    padding: '8px 25px', 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '20px', 
+    position: 'sticky', 
+    top: 0, 
+    zIndex: 1000, 
+    boxShadow: '0 4px 10px rgba(0,0,0,0.3)' 
+};
+
+const logoWrapper = { 
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '10px', 
+    cursor: 'pointer',
+    padding: '5px' 
+};
+
+const logoStyle = { 
+    height: '40px', 
+    width: '40px', 
+    borderRadius: '50%', 
+    objectFit: 'cover',
+    border: '2px solid #febd69' 
+};
+
+const logoTextStyle = { 
+    color: '#fff', 
+    margin: 0, 
+    fontSize: '18px', 
+    fontWeight: 'bold',
+    letterSpacing: '0.5px' 
+};
+
 const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '20px' };
 const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
 const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column', padding: '5px' };
