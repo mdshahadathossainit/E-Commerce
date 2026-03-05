@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 class User(AbstractUser):
     is_vendor = models.BooleanField(default=False)
@@ -56,7 +57,7 @@ class Order(models.Model):
     is_delivered = models.BooleanField(default=False)
     shipping_address = models.TextField()
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHODS, default='COD')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 
