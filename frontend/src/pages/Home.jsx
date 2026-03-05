@@ -43,21 +43,19 @@ const Home = () => {
     return (
         <div style={{ backgroundColor: '#eaeded', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
             
-            {/* --- Updated Clean Navbar --- */}
+            {/* --- Final Single Navbar --- */}
             <header style={navContainer}>
-                {/* Logo */}
-                <div style={logoWrapper}>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <h2 style={{ color: '#fff', margin: 0, fontSize: '22px' }}>
-                            <span style={{ color: '#febd69' }}>My</span> E-Commerce
-                        </h2>
-                    </Link>
+                {/* Home / Logo Section */}
+                <div style={logoWrapper} onClick={() => navigate('/')}>
+                    <h2 style={{ color: '#fff', margin: 0, fontSize: '20px', cursor: 'pointer' }}>
+                        <span style={{ color: '#febd69' }}>🏠 Home</span>
+                    </h2>
                 </div>
 
-                {/* Location */}
+                {/* Location Area */}
                 <div style={navItem}>
                     <span style={topText}>Delivering to</span>
-                    <div style={{ display: 'flex', alignItems: 'center', color: '#fff', fontWeight: 'bold', fontSize: '14px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', color: '#fff', fontWeight: 'bold', fontSize: '13px' }}>
                         <span style={{ marginRight: '4px' }}>📍</span> Bangladesh
                     </div>
                 </div>
@@ -65,7 +63,7 @@ const Home = () => {
                 {/* Search Bar */}
                 <div style={searchWrapper}>
                     <select style={searchSelect}>
-                        <option>All</option>
+                        <option>All Categories</option>
                         {categories.map(cat => <option key={cat.id}>{cat.name}</option>)}
                     </select>
                     <input 
@@ -78,7 +76,7 @@ const Home = () => {
                     <button style={searchBtn}>🔍</button>
                 </div>
 
-                {/* Language Switcher */}
+                {/* Language Picker */}
                 <div style={navItem}>
                     <select 
                         style={langSelect} 
@@ -90,18 +88,18 @@ const Home = () => {
                     </select>
                 </div>
 
-                {/* Sign In Section */}
+                {/* Sign In */}
                 <div onClick={() => navigate('/login')} style={navLinkPointer}>
                     <span style={topText}>Hello, User</span>
                     <div style={bottomText}>Sign In</div>
                 </div>
 
-                {/* Clock Display */}
+                {/* Live Clock */}
                 <div style={navItem}>
                     <div style={clockDisplay}>{time}</div>
                 </div>
 
-                {/* Register Section (Replaces Cart) */}
+                {/* Final Register Button */}
                 <Link to="/register" style={navLink}>
                     <div style={registerBtn}>
                         Register
@@ -109,7 +107,7 @@ const Home = () => {
                 </Link>
             </header>
 
-            {/* --- Main Content --- */}
+            {/* --- Banner Section --- */}
             <div style={{
                 height: '400px',
                 backgroundImage: `url("${banners[currentBanner]}")`,
@@ -124,6 +122,7 @@ const Home = () => {
                 <button onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)} style={sliderNavStyle('right')}>❯</button>
             </div>
 
+            {/* --- Product Grid Section --- */}
             <div style={{ maxWidth: '1500px', margin: '-180px auto 0', padding: '0 20px', position: 'relative', zIndex: 10 }}>
                 {categories.map(category => {
                     const categoryProducts = filteredProducts.filter(p => p.category === category.id);
@@ -146,47 +145,54 @@ const Home = () => {
                 })}
             </div>
 
+            {/* --- Footer Section --- */}
             <footer style={footerStyle}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                    <h2 style={{ color: '#febd69', marginBottom: '20px' }}>Md Shahadat Hossain</h2>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+                    <h2 style={{ color: '#febd69', marginBottom: '15px' }}>Md Shahadat Hossain</h2>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                         <a href="https://github.com/mdshahadathossainit/" target="_blank" rel="noreferrer" style={footerLink}>Github</a>
                         <a href="https://mdshahadathossainit.github.io/" target="_blank" rel="noreferrer" style={footerLink}>Portfolio</a>
                     </div>
-                    <div style={{ marginTop: '40px', fontSize: '12px', color: '#aaa' }}>
+                    <p style={{ marginTop: '30px', fontSize: '12px', color: '#888' }}>
                         © 2026 E-Commerce Project | Developed with React & Django
-                    </div>
+                    </p>
                 </div>
             </footer>
         </div>
     );
 };
 
-// --- Updated Styles ---
+// --- Styles ---
 
 const navContainer = {
     backgroundColor: '#131921',
-    padding: '12px 20px',
+    padding: '10px 20px',
     display: 'flex',
     alignItems: 'center',
-    gap: '20px',
+    gap: '15px',
     position: 'sticky',
     top: 0,
     zIndex: 1000
 };
 
-const logoWrapper = { padding: '5px' };
+const logoWrapper = { 
+    padding: '5px 10px', 
+    border: '1px solid transparent', 
+    cursor: 'pointer',
+    borderRadius: '4px'
+};
+
 const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
 const navLink = { textDecoration: 'none', color: '#fff' };
 const navLinkPointer = { ...navLink, cursor: 'pointer', padding: '5px' };
-const topText = { fontSize: '12px', color: '#ccc' };
-const bottomText = { fontSize: '15px', fontWeight: 'bold', color: '#fff' };
+const topText = { fontSize: '11px', color: '#ccc' };
+const bottomText = { fontSize: '14px', fontWeight: 'bold', color: '#fff' };
 
 const searchWrapper = {
     flex: 1,
     display: 'flex',
-    height: '42px',
-    borderRadius: '6px',
+    height: '38px',
+    borderRadius: '4px',
     overflow: 'hidden',
     backgroundColor: '#fff'
 };
@@ -194,39 +200,40 @@ const searchWrapper = {
 const searchSelect = {
     backgroundColor: '#f3f3f3',
     border: 'none',
-    padding: '0 12px',
+    padding: '0 10px',
+    fontSize: '12px',
     borderRight: '1px solid #ccc',
     cursor: 'pointer',
     outline: 'none'
 };
 
-const searchInput = { flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '15px' };
+const searchInput = { flex: 1, padding: '0 12px', border: 'none', outline: 'none', fontSize: '14px' };
 
 const searchBtn = {
-    padding: '0 20px',
+    padding: '0 15px',
     backgroundColor: '#febd69',
     border: 'none',
     cursor: 'pointer',
-    fontSize: '18px'
+    fontSize: '16px'
 };
 
 const langSelect = {
-    backgroundColor: 'transparent',
+    backgroundColor: '#232f3e',
     color: '#fff',
     border: '1px solid #444',
-    padding: '5px',
+    padding: '4px 8px',
     borderRadius: '4px',
     cursor: 'pointer',
-    fontWeight: 'bold',
+    fontSize: '13px',
     outline: 'none'
 };
 
 const clockDisplay = {
     color: '#febd69',
     fontWeight: 'bold',
-    fontSize: '16px',
-    padding: '5px 15px',
-    borderRadius: '6px',
+    fontSize: '14px',
+    padding: '4px 12px',
+    borderRadius: '4px',
     backgroundColor: '#232f3e',
     border: '1px solid #3a4553'
 };
@@ -234,31 +241,31 @@ const clockDisplay = {
 const registerBtn = {
     backgroundColor: '#febd69',
     color: '#111',
-    padding: '8px 20px',
-    borderRadius: '6px',
+    padding: '7px 15px',
+    borderRadius: '4px',
     fontWeight: 'bold',
-    fontSize: '14px',
+    fontSize: '13px',
     border: '1px solid #a88734'
 };
 
 const categorySection = { 
-    marginBottom: '30px',
+    marginBottom: '25px',
     padding: '20px',
-    borderRadius: '12px',
+    borderRadius: '8px',
     backgroundColor: '#fff',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+    boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
 };
 
-const categoryTitle = { marginBottom: '20px', color: '#111', borderBottom: '2.5px solid #febd69', display: 'inline-block', paddingBottom: '6px' };
-const productGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '25px' };
-const productCardWrapper = { padding: '10px', transition: 'transform 0.2s' };
+const categoryTitle = { marginBottom: '15px', color: '#111', borderBottom: '2px solid #febd69', display: 'inline-block', paddingBottom: '4px' };
+const productGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' };
+const productCardWrapper = { transition: 'transform 0.2s' };
 
-const footerStyle = { backgroundColor: '#232f3e', color: '#fff', padding: '50px 20px', marginTop: '50px', textAlign: 'center' };
-const footerLink = { color: '#fff', textDecoration: 'none', fontSize: '15px', padding: '10px 20px', border: '1px solid #3a4553', borderRadius: '4px' };
+const footerStyle = { backgroundColor: '#232f3e', color: '#fff', padding: '40px 20px', marginTop: '40px', textAlign: 'center' };
+const footerLink = { color: '#ccc', textDecoration: 'none', fontSize: '14px', padding: '8px 15px', border: '1px solid #444', borderRadius: '4px' };
 
 const sliderNavStyle = (dir) => ({
-    position: 'absolute', top: '45%', [dir]: '30px', backgroundColor: 'rgba(255,255,255,0.6)', 
-    border: 'none', color: '#000', fontSize: '28px', width: '55px', height: '55px', cursor: 'pointer', zIndex: 20, borderRadius: '50%'
+    position: 'absolute', top: '45%', [dir]: '20px', backgroundColor: 'rgba(255,255,255,0.5)', 
+    border: 'none', color: '#000', fontSize: '24px', width: '45px', height: '45px', cursor: 'pointer', zIndex: 20, borderRadius: '50%'
 });
 
 export default Home;
