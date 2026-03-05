@@ -60,10 +60,9 @@ const Profile = () => {
             if (user.photo.startsWith('http')) {
                 return user.photo;
             }
-            if (user.photo.startsWith('/media/')) {
-                return `https://e-commerce-hmvn.onrender.com${user.photo}`;
-            }
-            return `https://e-commerce-hmvn.onrender.com/media/${user.photo}`;
+            const cleanPath = user.photo.startsWith('/') ? user.photo : `/${user.photo}`;
+            const finalPath = cleanPath.includes('/media/') ? cleanPath : `/media${cleanPath}`;
+            return `https://e-commerce-hmvn.onrender.com${finalPath}`;
         }
 
         return `https://ui-avatars.com/api/?name=${user.username}&background=febd69&color=fff`;
@@ -79,7 +78,7 @@ const Profile = () => {
                             alt="Profile" 
                             style={profileImg} 
                             onError={(e) => { 
-                                e.target.src = "https://ui-avatars.com/api/?name=" + user.username + "&background=febd69&color=fff"; 
+                                e.target.src = `https://ui-avatars.com/api/?name=${user.username}&background=febd69&color=fff`; 
                             }}
                         />
                     </div>
