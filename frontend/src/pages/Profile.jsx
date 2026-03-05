@@ -33,8 +33,8 @@ const Profile = () => {
 
     if (!user) return (
         <div style={{ padding: '20px', textAlign: 'center' }}>
-            <p>User data not available (Server Error 500). Please ensure your backend is running correctly.</p>
-            <button onClick={() => navigate('/login')}>Try Login Again</button>
+            <p>Profile data could not be loaded. Please ensure you are logged in or check server status.</p>
+            <button onClick={() => navigate('/login')}>Login Again</button>
         </div>
     );
 
@@ -48,11 +48,11 @@ const Profile = () => {
                         style={profileImg} 
                         onError={(e) => { e.target.src = "https://via.placeholder.com/150"; }}
                     />
-                    <h2 style={{ marginTop: '15px' }}>{user.first_name || 'No Name'}</h2>
+                    <h2 style={{ marginTop: '15px' }}>{user.first_name || user.username}</h2>
                     <p><strong>Username:</strong> @{user.username}</p>
                     <p><strong>Email:</strong> {user.email}</p>
-                    <p><strong>Phone:</strong> {user.phone || 'N/A'}</p>
-                    <p><strong>Address:</strong> {user.address || 'N/A'}</p>
+                    <p><strong>Phone:</strong> {user.phone || 'Not set'}</p>
+                    <p><strong>Address:</strong> {user.address || 'Not set'}</p>
                 </div>
 
                 <div style={{ flex: '1.5' }}>
@@ -67,9 +67,6 @@ const Profile = () => {
                                     <span>{new Date(order.created_at).toLocaleDateString()}</span>
                                 </div>
                                 <p style={{ color: '#27ae60', fontWeight: 'bold' }}>Amount Paid: ${order.total_price}</p>
-                                <p style={{ fontSize: '13px', color: '#666' }}>
-                                    Status: {order.is_delivered ? 'Delivered' : 'Processing'}
-                                </p>
                             </div>
                         ))
                     )}
