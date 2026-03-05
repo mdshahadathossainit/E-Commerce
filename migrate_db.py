@@ -7,6 +7,9 @@ django.setup()
 
 def run_db_tasks():
     try:
+        print("Checking for model changes...")
+        call_command('makemigrations', 'api', interactive=False)
+        
         print("Starting migrations...")
         call_command('migrate', interactive=False)
         print("Migrations finished successfully!")
@@ -17,7 +20,7 @@ def run_db_tasks():
         if not User.objects.filter(username="admin").exists():
             print("Creating superuser...")
             User.objects.create_superuser("admin", "admin@example.com", "admin123")
-            print("Admin created successfully! (User: admin, Pass: admin123)")
+            print("Admin created successfully!")
         else:
             print("Admin already exists. Skipping creation.")
             
