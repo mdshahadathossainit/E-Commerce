@@ -3,8 +3,33 @@
 A modern, scalable, and high-performance E-Commerce web application developed using **Django REST Framework (Backend)** and **React (Frontend)**. This platform features an Amazon-inspired user interface, dynamic product categorization, and a complete order management system.
 
 ## 🌐 Live Demo
+
 * **Frontend (Deployed on Vercel):** [https://e-commerce-drab-iota-38.vercel.app/](https://e-commerce-drab-iota-38.vercel.app/)
 * **Backend API (Deployed on Render):** [https://e-commerce-hmvn.onrender.com/api/](https://e-commerce-hmvn.onrender.com/api/)
+
+## 📸 Project Gallery
+<div align="center">
+<h3>🏠 Home & Dynamic Product Categories</h3>
+   <img src="https://i.imgur.com/UwRTS2D.png" width="800" alt="Details">
+<img src="https://i.imgur.com/9ysKn7Z.png" width="500" alt="Cart">
+<img src="https://i.imgur.com/vq3Mu6w.png" width="500" alt="Checkout">
+   
+
+
+<h3>🛒 Product Details &  Checkout Summary</h3>
+<img src="https://i.imgur.com/sRupjON.png" width="500" alt="product detais">
+<img src="https://i.imgur.com/IFwJaJN.png" width="500" alt="checkout summary">
+<img src="https://i.imgur.com/z3TbbEf.png" width="500" alt="checkout summary">
+
+<h3>💳 Log in & Profile Management</h3>
+<img src="https://i.imgur.com/es9mn7T.png" width="700" alt="log in">
+<img src="https://i.imgur.com/oq54lEQ.png" width="500" alt="signup">
+<img src="https://i.imgur.com/4R6j0BI.png" width="500" alt="profile">
+<h3>📋 Order Tracking & Cart System </h3>
+<img src="https://i.imgur.com/Zk8PeqG.png" width="500" alt="order tracking">
+<img src="https://i.imgur.com/gVpOiDf.png" width="500" alt="Register">
+</div>
+
 
 ## 🚀 Key Features
 
@@ -18,12 +43,14 @@ A modern, scalable, and high-performance E-Commerce web application developed us
 ## 🛠️ Tech Stack
 
 **Backend:**
+
 * **Framework:** Django & Django REST Framework (DRF)
 * **Authentication:** SimpleJWT
 * **Database:** PostgreSQL (Production) / SQLite (Development)
 * **Deployment:** Render
 
 **Frontend:**
+
 * **Library:** React.js (Vite)
 * **API Client:** Axios
 * **Styling:** CSS3 (Custom Grid Layouts & Animations)
@@ -33,63 +60,112 @@ A modern, scalable, and high-performance E-Commerce web application developed us
 
 ```text
 mdshahadathossainit-e-commerce/
-├── api/                 # Django App (Models, Views, Serializers)
-├── core/                # Project Settings & Configurations
-├── frontend/            # React Application (Vite)
+├── api/                        # Django Backend App (Core Logic)
+│   ├── migrations/             # Database Migration Files (0001 to 0004)
+│   ├── admin.py                # Admin Panel Configuration
+│   ├── models.py               # Database Schema (User, Product, Cart, Order)
+│   ├── serializers.py          # Object to JSON Converters
+│   ├── urls.py                 # API Routing
+│   └── views.py                # API Logic & Response Handling
+├── core/                       # Project Settings
+│   ├── settings.py             # Global Configurations (DB, JWT, Media)
+│   ├── urls.py                 # Main URL Dispatcher
+│   └── wsgi.py                 # Server Gateway Interface
+├── frontend/                   # React Frontend Application
+│   ├── public/                 # Static Assets
 │   ├── src/
-│   │   ├── components/  # Reusable UI Components (ProductCard, etc.)
-│   │   ├── pages/       # Page Components (Home, Cart, Checkout, Profile)
-│   │   └── api.js       # Axios Interceptor Configuration
-├── manage.py            # Django Management Script
-└── requirements.txt     # Python Dependencies
+│   │   ├── components/         # Reusable Components (Navbar, ProductCard)
+│   │   ├── pages/              # Main Page Components
+│   │   │   ├── Home.jsx        # Dashboard & Product Listing
+│   │   │   ├── Login.jsx       # User Authentication
+│   │   │   ├── Profile.jsx     # User Info & Order History
+│   │   │   ├── Cart.jsx        # Shopping Cart Management
+│   │   │   └── Checkout.jsx    # Shipping & Payment Handling
+│   │   ├── api.js              # Axios Central Configuration
+│   │   ├── App.jsx             # Main Router & Layout
+│   │   └── main.jsx            # Entry Point
+│   ├── package.json            # Node Dependencies
+│   └── vercel.json             # Frontend Deployment Config
+├── manage.py                   # Django Management Script
+├── migrate_db.py               # Custom Migration Runner
+└── requirements.txt            # Python Backend Dependencies
 
 ```
 
-
-   ## ⚙️ Setup & Installation
+## ⚙️ Setup & Installation
 
 ### Backend Setup:
 
 1. Clone the repository:
-`git clone https://github.com/mdshahadathossainit/E-Commerce.git`
+```bash
+git clone https://github.com/mdshahadathossainit/E-Commerce.git
+
+```
+
+
 2. Create and activate a virtual environment:
-`python -m venv venv`
-`source venv/bin/activate` (Linux) or `venv\Scripts\activate` (Windows)
+```bash
+python -m venv venv
+source venv/bin/activate # Windows: venv\Scripts\activate
+
+```
+
+
 3. Install dependencies:
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+
+```
+
+
 4. Run migrations:
-`python manage.py migrate`
+```bash
+python manage.py migrate
+
+```
+
+
 5. Start the server:
-`python manage.py runserver`
+```bash
+python manage.py runserver
+
 ```
 
 
 
-   ### Frontend Setup:
+### Frontend Setup:
 
 1. Navigate to the frontend folder:
-`cd frontend`
-2. Install NPM packages:
-`npm install`
-3. Launch the development server:
-`npm run dev`
-
-
-
+```bash
+cd frontend
 
 ```
- ## 🔗 Primary API Endpoints
 
-Endpoint,Method,Description
-/api/products/,GET,List all products with Search/Filter support
-/api/categories/,GET,List all available product categories
-/api/cart/,GET/POST,Manage user shopping cart items
-/api/orders/,GET/POST,Place new orders and view order history
+
+2. Install NPM packages:
+```bash
+npm install
+
+```
+
+
+3. Launch the development server:
+```bash
+npm run dev
+
+```
+
+
+
+## 🔗 Primary API Endpoints
+
+| Endpoint | Method | Description |
+| --- | --- | --- |
+| `/api/products/` | GET | List all products with Search/Filter support |
+| `/api/categories/` | GET | List all available product categories |
+| `/api/cart/` | GET/POST | Manage user shopping cart items |
+| `/api/orders/` | GET/POST | Place new orders and view order history |
 
 ---
-```
 
 **Developed by [Md Shahadat Hossain**](https://mdshahadathossainit.github.io/)
-
-```
-
