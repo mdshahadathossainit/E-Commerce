@@ -54,8 +54,8 @@ const Home = () => {
 
     const gridStyle = {
         display: 'grid',
-        gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
-        gap: isMobile ? '8px' : '20px'
+        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+        gap: isMobile ? '12px' : '20px'
     };
 
     return (
@@ -65,7 +65,7 @@ const Home = () => {
                 <button onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)} style={sliderNavStyle('right')}>❯</button>
             </div>
 
-            <div style={{ maxWidth: '1400px', margin: isMobile ? '10px auto' : '-150px auto 0', padding: '0 10px', position: 'relative', zIndex: 10 }}>
+            <div style={{ maxWidth: '1400px', margin: isMobile ? '15px auto' : '-150px auto 0', padding: '0 15px', position: 'relative', zIndex: 10 }}>
                 {categories.map((category) => {
                     const categoryProducts = filteredProducts.filter(p => String(p.category) === String(category.id));
                     if (categoryProducts.length === 0) return null;
@@ -104,9 +104,9 @@ const Home = () => {
     );
 };
 
-const categorySection = { marginBottom: '30px', padding: '15px', borderRadius: '16px', backgroundColor: '#ffffff', boxShadow: '0 10px 25px rgba(0,0,0,0.06)' };
+const categorySection = { marginBottom: '35px', padding: '15px', borderRadius: '16px', backgroundColor: '#ffffff', boxShadow: '0 8px 20px rgba(0,0,0,0.06)' };
 const categoryHeader = { marginBottom: '15px', paddingBottom: '8px', borderBottom: '2px solid #f0f0f0' };
-const categoryTitle = { margin: 0, color: '#1a1a1a', fontSize: '1.1rem', fontWeight: '800' };
+const categoryTitle = { margin: 0, color: '#1a1a1a', fontSize: '1.2rem', fontWeight: '800' };
 
 const footerStyle = { backgroundColor: '#232f3e', color: '#fff', padding: '60px 20px', marginTop: '60px', textAlign: 'center' };
 const footerLink = { color: '#fff', textDecoration: 'none', fontSize: '15px', padding: '12px 25px', border: '1px solid #3a4553', borderRadius: '6px', backgroundColor: 'rgba(255,255,255,0.05)' };
