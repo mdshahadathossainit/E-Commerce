@@ -53,7 +53,7 @@ const Navbar = () => {
             <div style={searchWrapper}>
                 <input 
                     type="text" 
-                    placeholder="Search for products..." 
+                    placeholder="Search..." 
                     style={searchInput}
                 />
                 <button style={searchBtn}>🔍</button>
@@ -63,30 +63,22 @@ const Navbar = () => {
                 {isLoggedIn ? (
                     <>
                         <Link to="/cart" style={navLink}>
-                            <span style={topText}>Shopping</span>
                             <div style={bottomText}>🛒 Cart</div>
                         </Link>
 
                         <Link to="/profile" style={navLink}>
-                            <span style={topText}>My Account</span>
                             <div style={bottomText}>👤 Profile</div>
                         </Link>
 
                         <div onClick={handleLogout} style={navLinkPointer}>
-                            <span style={topText}>Sign Out</span>
                             <div style={{...bottomText, color: '#ff4d4d'}}>Logout</div>
                         </div>
                     </>
                 ) : (
                     <div onClick={() => navigate('/login')} style={navLinkPointer}>
-                        <span style={topText}>Hello, Guest</span>
                         <div style={bottomText}>Sign In</div>
                     </div>
                 )}
-
-                <div style={navItem}>
-                    <div style={clockDisplay}>{time}</div>
-                </div>
 
                 {!isLoggedIn && (
                     <Link to="/register" style={navLink}>
@@ -100,58 +92,57 @@ const Navbar = () => {
 
 const navContainer = { 
     backgroundColor: '#131921', 
-    padding: '8px 25px', 
+    padding: '10px 15px', 
     display: 'flex', 
     alignItems: 'center', 
-    gap: '20px', 
+    gap: '10px', 
     position: 'sticky', 
     top: 0, 
     zIndex: 1000, 
-    boxShadow: '0 4px 10px rgba(0,0,0,0.3)' 
+    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
 };
 
 const logoWrapper = { 
     display: 'flex', 
     alignItems: 'center', 
-    gap: '15px', 
-    cursor: 'pointer',
-    padding: '5px' 
+    gap: '8px', 
+    cursor: 'pointer'
 };
 
 const logoStyle = { 
-    height: '40px', 
-    width: '40px', 
+    height: '35px', 
+    width: '35px', 
     borderRadius: '50%', 
     objectFit: 'cover',
-    border: '2px solid #febd69' 
+    border: '1px solid #febd69' 
 };
 
 const logoTextStyle = { 
     color: '#fff', 
     margin: 0, 
-    fontSize: '18px', 
-    fontWeight: 'bold',
-    letterSpacing: '0.5px' 
+    fontSize: '16px', 
+    fontWeight: 'bold'
 };
 
 const homeLinkStyle = {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: '5px',
-    paddingLeft: '15px',
+    paddingLeft: '10px',
     borderLeft: '1px solid #444'
 };
 
-const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '20px' };
-const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
-const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column', padding: '5px' };
+const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '10px' };
+const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column' };
 const navLinkPointer = { ...navLink, cursor: 'pointer' };
-const topText = { fontSize: '11px', color: '#aaa', fontWeight: '500' };
-const bottomText = { fontSize: '14px', fontWeight: '800', color: '#fff' };
-const searchWrapper = { flex: 1, display: 'flex', height: '38px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#fff' };
-const searchInput = { flex: 1, padding: '0 12px', border: 'none', outline: 'none', fontSize: '14px' };
-const searchBtn = { padding: '0 20px', backgroundColor: '#febd69', border: 'none', cursor: 'pointer', fontSize: '18px' };
-const clockDisplay = { color: '#febd69', fontWeight: '800', fontSize: '14px', padding: '6px 14px', borderRadius: '6px', backgroundColor: '#232f3e', border: '1px solid #3a4553', minWidth: '90px', textAlign: 'center' };
-const registerBtn = { backgroundColor: '#febd69', color: '#111', padding: '7px 18px', borderRadius: '4px', fontWeight: '800', fontSize: '13px', border: '1px solid #a88734' };
+const topText = { fontSize: '10px', color: '#aaa' };
+const bottomText = { fontSize: '13px', fontWeight: 'bold', color: '#fff' };
+const searchWrapper = { flex: '1', minWidth: '150px', display: 'flex', height: '35px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#fff', order: 3, width: '100%' };
+const searchInput = { flex: 1, padding: '0 10px', border: 'none', outline: 'none', fontSize: '14px', width: '100%' };
+const searchBtn = { padding: '0 15px', backgroundColor: '#febd69', border: 'none', cursor: 'pointer' };
+const clockDisplay = { color: '#febd69', fontWeight: '800', fontSize: '12px', padding: '4px 8px', borderRadius: '4px', backgroundColor: '#232f3e' };
+const registerBtn = { backgroundColor: '#febd69', color: '#111', padding: '5px 10px', borderRadius: '4px', fontWeight: 'bold', fontSize: '12px' };
 
 export default Navbar;
