@@ -28,7 +28,6 @@ const Checkout = () => {
                 shipping_address: address,
                 payment_method: paymentMethod
             });
-            alert("Order Placed Successfully!");
             navigate('/profile');
         } catch (error) {
             alert(error.response?.data?.error || "Order Failed.");
@@ -36,34 +35,28 @@ const Checkout = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
-            <h2>Checkout Summary</h2>
-            <p><strong>Total Amount: ${totalPrice.toFixed(2)}</strong></p>
-            <form onSubmit={handleOrder}>
-                <label>Shipping Address:</label><br />
-                <textarea 
-                    required 
-                    style={{ width: '100%', height: '80px', marginBottom: '15px', padding: '10px' }} 
-                    onChange={(e) => setAddress(e.target.value)} 
-                />
-                <label>Payment Method:</label><br />
-                <select 
-                    style={{ width: '100%', padding: '10px', marginBottom: '20px' }} 
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    value={paymentMethod}
-                >
-                    <option value="Cash on Delivery">Cash on Delivery</option>
-                    <option value="Stripe">Credit Card (Stripe)</option>
-                </select>
-                <button 
-                    type="submit" 
-                    style={{ width: '100%', padding: '12px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold', borderRadius: '5px' }}
-                >
-                    Confirm Order
-                </button>
-            </form>
+        <div style={{ padding: '40px', maxWidth: '500px', margin: '0 auto' }}>
+            <div style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+                <h2>Checkout Summary</h2>
+                <p style={{ fontSize: '1.2rem' }}>Total Amount: <strong>${totalPrice.toFixed(2)}</strong></p>
+                <form onSubmit={handleOrder}>
+                    <label>Shipping Address:</label>
+                    <textarea required style={inputStyle} onChange={(e) => setAddress(e.target.value)} />
+                    
+                    <label>Payment Method:</label>
+                    <select style={inputStyle} onChange={(e) => setPaymentMethod(e.target.value)} value={paymentMethod}>
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="Card">Credit Card</option>
+                    </select>
+
+                    <button type="submit" style={confirmBtnStyle}>Pay & Confirm Order</button>
+                </form>
+            </div>
         </div>
     );
 };
+
+const inputStyle = { width: '100%', padding: '10px', margin: '10px 0', borderRadius: '4px', border: '1px solid #ddd' };
+const confirmBtnStyle = { width: '100%', padding: '12px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 'bold', borderRadius: '4px' };
 
 export default Checkout;
