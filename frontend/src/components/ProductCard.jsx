@@ -7,29 +7,33 @@ const ProductCard = ({ product }) => {
     return (
         <div style={{ 
             border: '1px solid #ddd', 
-            padding: '15px', 
-            margin: '10px', 
+            padding: '10px', 
+            margin: '5px', 
             borderRadius: '12px', 
-            width: '220px', 
+            width: 'calc(50% - 10px)',
+            maxWidth: '220px',
+            boxSizing: 'border-box',
             backgroundColor: '#fff', 
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            display: 'inline-block',
+            verticalAlign: 'top'
         }}>
             <img 
                 src={imageUrl} 
                 alt={product.name} 
                 style={{ 
                     width: '100%', 
-                    height: '160px', 
+                    height: '140px', 
                     objectFit: 'cover', 
                     borderRadius: '8px' 
                 }} 
                 onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
             />
             <h3 style={{ 
-                fontSize: '1.05rem', 
-                margin: '12px 0 8px', 
-                height: '42px', 
+                fontSize: '0.9rem', 
+                margin: '10px 0 5px', 
+                height: '38px', 
                 overflow: 'hidden',
                 color: '#333'
             }}>
@@ -38,8 +42,8 @@ const ProductCard = ({ product }) => {
             <p style={{ 
                 fontWeight: 'bold', 
                 color: '#27ae60', 
-                fontSize: '1.2rem',
-                marginBottom: '12px'
+                fontSize: '1.1rem',
+                marginBottom: '10px'
             }}>
                 ${product.price}
             </p>
@@ -50,13 +54,14 @@ const ProductCard = ({ product }) => {
                     textDecoration: 'none', 
                     color: '#fff', 
                     backgroundColor: '#3498db',
-                    padding: '8px 0',
+                    padding: '6px 0',
                     borderRadius: '6px',
                     textAlign: 'center',
-                    fontWeight: '500'
+                    fontWeight: '500',
+                    fontSize: '13px'
                 }}
             >
-                View Details
+                Details
             </Link>
         </div>
     );
