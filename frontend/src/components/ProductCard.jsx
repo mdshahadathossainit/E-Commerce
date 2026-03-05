@@ -7,11 +7,11 @@ const ProductCard = ({ product }) => {
     return (
         <div style={{ 
             border: '1px solid #e0e0e0', 
-            padding: '12px', 
+            padding: '10px', 
             borderRadius: '16px', 
             backgroundColor: '#f8f9fa', 
             boxShadow: '0 6px 15px rgba(0,0,0,0.08)',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            transition: 'transform 0.3s ease',
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
@@ -22,20 +22,20 @@ const ProductCard = ({ product }) => {
                 alt={product.name} 
                 style={{ 
                     width: '100%', 
-                    height: '150px', 
+                    height: '130px', 
                     objectFit: 'cover', 
                     borderRadius: '12px',
-                    marginBottom: '10px'
+                    marginBottom: '8px'
                 }} 
                 onError={(e) => { e.target.src = 'https://via.placeholder.com/150'; }}
             />
             <h3 style={{ 
-                fontSize: '0.95rem', 
+                fontSize: '0.85rem', 
                 margin: '5px 0', 
-                height: '40px', 
+                height: '34px', 
                 overflow: 'hidden',
                 color: '#2c3e50',
-                lineHeight: '1.3',
+                lineHeight: '1.2',
                 fontWeight: '600'
             }}>
                 {product.name}
@@ -43,8 +43,8 @@ const ProductCard = ({ product }) => {
             <p style={{ 
                 fontWeight: '800', 
                 color: '#2ecc71', 
-                fontSize: '1.1rem',
-                margin: '8px 0'
+                fontSize: '1rem',
+                margin: '5px 0'
             }}>
                 ${product.price}
             </p>
@@ -55,11 +55,11 @@ const ProductCard = ({ product }) => {
                     textDecoration: 'none', 
                     color: '#fff', 
                     backgroundColor: '#131921',
-                    padding: '10px 0',
+                    padding: '8px 0',
                     borderRadius: '8px',
                     textAlign: 'center',
                     fontWeight: '600',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     marginTop: 'auto'
                 }}
             >
