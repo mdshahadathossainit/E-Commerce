@@ -1,153 +1,98 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import api from '../api';
+import { Link } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
 
-const Navbar = () => {
-    const [time, setTime] = useState(new Date().toLocaleTimeString());
-    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('access'));
-    const navigate = useNavigate();
+const Home = () => {
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [search, setSearch] = useState('');
+    const [currentBanner, setCurrentBanner] = useState(0);
+
+    const banners = [
+        "https://m.media-amazon.com/images/I/91Ublp-YsfL._SX3000_.jpg",
+        "https://m.media-amazon.com/images/I/81KkrQWEHIL._SX3000_.jpg",
+        "https://m.media-amazon.com/images/I/61zAjw4bqPL._SX3000_.jpg"
+    ];
 
     useEffect(() => {
-        const clockTimer = setInterval(() => {
-            setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-        }, 1000);
+        const bannerTimer = setInterval(() => {
+            setCurrentBanner((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
+        }, 5000);
+        return () => clearInterval(bannerTimer);
+    }, [banners.length]);
 
-        const checkAuth = () => {
-            setIsLoggedIn(!!localStorage.getItem('access'));
-        };
-
-        window.addEventListener('storage', checkAuth);
-        const authInterval = setInterval(checkAuth, 1000);
-
-        return () => {
-            clearInterval(clockTimer);
-            clearInterval(authInterval);
-            window.removeEventListener('storage', checkAuth);
-        };
+    useEffect(() => {
+        api.get('categories/').then(res => setCategories(res.data)).catch(err => console.log(err));
+        api.get('products/').then(res => setProducts(res.data)).catch(err => console.log(err));
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        setIsLoggedIn(false);
-        alert('Logged Out Successfully');
-        navigate('/login');
-    };
+    const filteredProducts = products.filter(p => 
+        p.name.toLowerCase().includes(search.toLowerCase())
+    );
 
     return (
-        <header style={navContainer}>
-            {/* Logo & Home Section */}
-            <div style={logoWrapper} onClick={() => navigate('/')}>
-                <img 
-                    src="https://imgur.com/N3dd1YI.png" 
-                    alt="Talha E-Commerce" 
-                    style={logoStyle} 
-                />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h2 style={logoTextStyle}>
-                        Talha <span style={{ color: '#febd69' }}>E-Commerce</span>
-                    </h2>
-                    <span style={{ color: '#febd69', fontSize: '12px', fontWeight: 'bold' }}>🏠 Home</span>
-                </div>
+        <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
+            <div style={{
+                height: '420px',
+                backgroundImage: `url("${banners[currentBanner]}")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                transition: 'background-image 0.8s ease-in-out',
+                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0))',
+                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0))',
+                position: 'relative'
+            }}>
+                <button onClick={() => setCurrentBanner(currentBanner === 0 ? banners.length - 1 : currentBanner - 1)} style={sliderNavStyle('left')}>❮</button>
+                <button onClick={() => setCurrentBanner(currentBanner === banners.length - 1 ? 0 : currentBanner + 1)} style={sliderNavStyle('right')}>❯</button>
             </div>
 
-            <div style={searchWrapper}>
-                <input 
-                    type="text" 
-                    placeholder="Search for products..." 
-                    style={searchInput}
-                />
-                <button style={searchBtn}>🔍</button>
-            </div>
+            <div style={{ maxWidth: '1400px', margin: '-150px auto 0', padding: '0 20px', position: 'relative', zIndex: 10 }}>
+                {categories.map((category, idx) => {
+                    const categoryProducts = filteredProducts.filter(p => String(p.category) === String(category.id));
+                    if (categoryProducts.length === 0) return null;
 
-            <div style={navItemsGroup}>
-                {isLoggedIn ? (
-                    <>
-                        <Link to="/cart" style={navLink}>
-                            <span style={topText}>Shopping</span>
-                            <div style={bottomText}>🛒 Cart</div>
-                        </Link>
-
-                        <Link to="/profile" style={navLink}>
-                            <span style={topText}>My Account</span>
-                            <div style={bottomText}>👤 Profile</div>
-                        </Link>
-
-                        <div onClick={handleLogout} style={navLinkPointer}>
-                            <span style={topText}>Sign Out</span>
-                            <div style={{...bottomText, color: '#ff4d4d'}}>Logout</div>
+                    return (
+                        <div key={category.id} id={`cat-${category.id}`} style={categorySection}>
+                            <div style={categoryHeader}>
+                                <h3 style={categoryTitle}>{category.name}</h3>
+                            </div>
+                            <div style={productGrid}>
+                                {categoryProducts.map(product => (
+                                    <div key={product.id} style={productCardWrapper}>
+                                        <ProductCard product={product} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </>
-                ) : (
-                    <div onClick={() => navigate('/login')} style={navLinkPointer}>
-                        <span style={topText}>Hello, Guest</span>
-                        <div style={bottomText}>Sign In</div>
-                    </div>
-                )}
-
-                <div style={navItem}>
-                    <div style={clockDisplay}>{time}</div>
-                </div>
-
-                {!isLoggedIn && (
-                    <Link to="/register" style={navLink}>
-                        <div style={registerBtn}>Register</div>
-                    </Link>
-                )}
+                    );
+                })}
             </div>
-        </header>
+
+            <footer style={footerStyle}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+                    <h2 style={{ color: '#febd69', marginBottom: '20px' }}>Md Shahadat Hossain</h2>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+                        <a href="https://github.com/mdshahadathossainit/" target="_blank" rel="noreferrer" style={footerLink}>Github Profile</a>
+                        <a href="https://www.linkedin.com/in/mdshahadathossainit" target="_blank" rel="noreferrer" style={footerLink}>LinkedIn Profile</a>
+                        <a href="https://mdshahadathossainit.github.io/" target="_blank" rel="noreferrer" style={footerLink}>Project Portfolio</a>
+                    </div>
+                    <p style={{ marginTop: '40px', fontSize: '13px', color: '#999' }}>
+                        © 2026 E-Commerce Platform | Integrated with Django REST & React
+                    </p>
+                </div>
+            </footer>
+        </div>
     );
 };
 
-// --- Styles ---
+const categorySection = { marginBottom: '40px', padding: '25px', borderRadius: '12px', backgroundColor: '#fff', boxShadow: '0 10px 25px rgba(0,0,0,0.06)' };
+const categoryHeader = { marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #eee' };
+const categoryTitle = { margin: 0, color: '#1a1a1a', fontSize: '22px', fontWeight: '800' };
+const productGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '25px' };
+const productCardWrapper = { padding: '10px' };
+const footerStyle = { backgroundColor: '#232f3e', color: '#fff', padding: '60px 20px', marginTop: '60px', textAlign: 'center' };
+const footerLink = { color: '#fff', textDecoration: 'none', fontSize: '15px', padding: '12px 25px', border: '1px solid #3a4553', borderRadius: '6px', backgroundColor: 'rgba(255,255,255,0.05)' };
+const sliderNavStyle = (dir) => ({ position: 'absolute', top: '45%', [dir]: '20px', backgroundColor: 'rgba(255,255,255,0.7)', border: 'none', color: '#111', fontSize: '28px', width: '50px', height: '50px', cursor: 'pointer', zIndex: 20, borderRadius: '50%' });
 
-const navContainer = { 
-    backgroundColor: '#131921', 
-    padding: '8px 25px', 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: '20px', 
-    position: 'sticky', 
-    top: 0, 
-    zIndex: 1000, 
-    boxShadow: '0 4px 10px rgba(0,0,0,0.3)' 
-};
-
-const logoWrapper = { 
-    display: 'flex', 
-    alignItems: 'center', 
-    gap: '12px', 
-    cursor: 'pointer',
-    padding: '5px',
-    minWidth: '200px'
-};
-
-const logoStyle = { 
-    height: '45px', 
-    width: '45px', 
-    borderRadius: '50%', 
-    objectFit: 'cover',
-    border: '2px solid #febd69' 
-};
-
-const logoTextStyle = { 
-    color: '#fff', 
-    margin: 0, 
-    fontSize: '18px', 
-    fontWeight: 'bold',
-    letterSpacing: '0.5px',
-    lineHeight: '1.2'
-};
-
-const navItemsGroup = { display: 'flex', alignItems: 'center', gap: '20px' };
-const navItem = { display: 'flex', flexDirection: 'column', padding: '5px' };
-const navLink = { textDecoration: 'none', color: '#fff', display: 'flex', flexDirection: 'column', padding: '5px' };
-const navLinkPointer = { ...navLink, cursor: 'pointer' };
-const topText = { fontSize: '11px', color: '#aaa', fontWeight: '500' };
-const bottomText = { fontSize: '14px', fontWeight: '800', color: '#fff' };
-const searchWrapper = { flex: 1, display: 'flex', height: '38px', borderRadius: '4px', overflow: 'hidden', backgroundColor: '#fff' };
-const searchInput = { flex: 1, padding: '0 15px', border: 'none', outline: 'none', fontSize: '14px' };
-const searchBtn = { padding: '0 20px', backgroundColor: '#febd69', border: 'none', cursor: 'pointer', fontSize: '18px' };
-const clockDisplay = { color: '#febd69', fontWeight: '800', fontSize: '14px', padding: '6px 14px', borderRadius: '6px', backgroundColor: '#232f3e', border: '1px solid #3a4553', minWidth: '90px', textAlign: 'center' };
-const registerBtn = { backgroundColor: '#febd69', color: '#111', padding: '7px 18px', borderRadius: '4px', fontWeight: '800', fontSize: '13px', border: '1px solid #a88734' };
-
-export default Navbar;
+export default Home;
